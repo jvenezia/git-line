@@ -1,0 +1,25 @@
+#!/bin/sh
+
+source "$(git --exec-path)/git-sh-setup"
+
+usage() {
+    echo "usage: git rm-branch [<branch>]"
+}
+
+function main() {
+
+    if [[ $# -ne 1 ]]; then
+        usage
+        exit 1
+    fi
+
+    BRANCH=$1
+
+    if [[ -n $BRANCH ]]; then
+        git branch -D $BRANCH
+        git push origin :$BRANCH
+    fi
+
+}
+
+main $@

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+source "$(git --exec-path)/git-sh-setup"
+
+usage() {
+    echo "usage: git clean-repo"
+}
+
+function main() {
+
+    git fetch --all
+    git remote prune origin
+
+}
+
+main
