@@ -1,0 +1,23 @@
+#!/bin/sh
+
+source "$(git --exec-path)/git-sh-setup"
+
+usage() {
+    echo "usage: git update <base>"
+}
+
+function main() {
+
+    if [[ $# -ne 1 ]]; then
+        usage
+        exit 1
+    fi
+
+    BASE=$1
+
+    git fetch origin $BASE:$BASE
+    git rebase $BASE
+
+}
+
+main $@

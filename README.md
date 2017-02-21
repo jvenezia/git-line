@@ -1,5 +1,19 @@
 ## Git Extensions
 
+### Update
+
+Updates target branch from origin, then rebase current branch onto it. 
+
+Usage:
+```
+git update <branch>
+```
+
+Examples:
+```
+git update develop
+```
+
 ### Squash
 
 Interactive rebase with autosquash to the specified commit. 
