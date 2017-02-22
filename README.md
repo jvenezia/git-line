@@ -20,7 +20,7 @@ cp $HOME/git-extensions/.git-extensions.conf.example my-project/.git-extensions.
 
 ## Extensions
 
-#### Fixup 
+#### Fixup
 
 ```
 usage: git fixup 
@@ -60,10 +60,10 @@ usage: git nuke
 Removes current branch locally and from origin. It will not apply to branches listed in PROTECTED_BRANCHES.
 ```
 
-#### Clean Repo
+#### Wipe
 
 ```
-git clean-repo
+git wipe
 
 Remove all remote branches removed from origin.
 ```

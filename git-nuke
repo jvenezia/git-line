@@ -30,8 +30,8 @@ function main() {
     fi
 
     git checkout $DEVELOPMENT_BRANCH
-    git branch -D $branch_to_remove
-    git push origin :$branch_to_remove
+    git branch -D $current_branch
+    git push origin :$current_branch
 
 }
 
