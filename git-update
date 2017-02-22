@@ -5,11 +5,6 @@ LONG_USAGE=""
 
 source "$(git --exec-path)/git-sh-setup"
 
-if [[ $# -ne 1 ]]; then
-    usage
-    exit 1
-fi
-
 function setup_configuration() {
     if [[ -r "$HOME/.git-extensions.conf" ]]; then
         source "$HOME/.git-extensions.conf"

@@ -20,7 +20,7 @@ cp $HOME/git-extensions/.git-extensions.conf.example my-project/.git-extensions.
 
 ## Extensions
 
-#### fixup
+#### Fixup
 
 Commit with autosquash formated message.
 If no commit is specified, it will use the previous commit. 
