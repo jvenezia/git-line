@@ -1,6 +1,6 @@
 ## Git Extensions
 
-### Installation
+## Installation
 
 Clone this repository and the folder in your PATH.
 
@@ -18,7 +18,7 @@ cp $HOME/git-extensions/.git-extensions.conf.example $HOME/.git-extensions.conf
 cp $HOME/git-extensions/.git-extensions.conf.example my-project/.git-extensions.conf
 ```
 
-### Extensions
+## Extensions
 
 #### Update
 
@@ -76,3 +76,7 @@ Usage:
 ```
 git clean-repo
 ```
+
+## License
+
+Released under the MIT License, which can be found in LICENSE.txt.
