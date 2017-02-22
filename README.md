@@ -63,7 +63,7 @@ Removes current branch locally and from origin. It will not apply to branches li
 #### Wipe
 
 ```
-git wipe
+usage: git wipe
 
 Remove all remote branches removed from origin.
 ```
