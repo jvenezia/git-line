@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-alias gec='git add . && git commit -am'
 alias gef='git fixup'
 alias ges='git squash'
 alias geu='git update'
