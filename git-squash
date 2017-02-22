@@ -1,17 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+USAGE="<commit>"
+LONG_USAGE=""
 
 source "$(git --exec-path)/git-sh-setup"
 
-usage() {
-    echo "usage: git squash <commit>"
-}
+if [[ $# -lt 1 ]]; then
+    usage
+    exit 1
+fi
 
 function main() {
-
-    if [[ $# -ne 1 ]]; then
-        usage
-        exit 1
-    fi
 
     COMMIT=$1
 

@@ -1,24 +1,34 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+USAGE="[<branch>]"
+LONG_USAGE="<branch> is the current branch by default.\nIt will not apply on master and develop branches."
 
 source "$(git --exec-path)/git-sh-setup"
-
-usage() {
-    echo "usage: git rm-branch [<branch>]"
-}
+source "utils/setup-configuration-files.sh"
 
 function main() {
 
-    if [[ $# -ne 1 ]]; then
-        usage
-        exit 1
-    fi
-
     BRANCH=$1
 
+    branch_to_remove=''
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+
     if [[ -n $BRANCH ]]; then
-        git branch -D $BRANCH
-        git push origin :$BRANCH
+        branch_to_remove=$BRANCH
+    else
+        branch_to_remove=$current_branch
     fi
+
+    if [[ $PROTECTED_BRANCHES =~ $branch_to_remove ]]; then
+        die "$branch_to_remove branch is protected and will not be removed."
+    fi
+
+    if [[ $branch_to_remove == $current_branch ]]; then
+        git checkout $DEVELOPMENT_BRANCH
+    fi
+
+    git branch -D $branch_to_remove
+    git push origin :$branch_to_remove
 
 }
 

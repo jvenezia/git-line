@@ -1,15 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+USAGE=""
+LONG_USAGE=""
 
 source "$(git --exec-path)/git-sh-setup"
 
-usage() {
-    echo "usage: git clean-repo"
-}
-
 function main() {
 
-    git fetch --all
-    git remote prune origin
+    git fetch --all --prune
 
 }
 

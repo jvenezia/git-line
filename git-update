@@ -1,22 +1,30 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+USAGE="<base>"
+LONG_USAGE=""
 
 source "$(git --exec-path)/git-sh-setup"
+source "utils/setup-configuration-files.sh"
 
-usage() {
-    echo "usage: git update <base>"
-}
+if [[ $# -lt 1 ]]; then
+    usage
+    exit 1
+fi
 
 function main() {
 
-    if [[ $# -ne 1 ]]; then
-        usage
-        exit 1
-    fi
-
     BASE=$1
 
-    git fetch origin $BASE:$BASE
-    git rebase $BASE
+    base_branch=''
+
+    if [[ -n $BASE ]]; then
+        base_branch=$BASE
+    else
+        base_branch=$DEVELOPMENT_BRANCH
+    fi
+
+    git fetch origin $base_branch:$base_branch
+    git rebase $base_branch
 
 }
 
