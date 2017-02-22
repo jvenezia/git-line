@@ -3,6 +3,6 @@
 alias gef='git fixup'
 alias ges='git squash'
 alias geu='git update'
-alias gecl='git close'
+alias gec='git close'
 alias gen='git nuke'
 alias gew='git wipe'
