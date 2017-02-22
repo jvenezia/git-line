@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE=""
-LONG_USAGE="Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it."
+LONG_USAGE="Updates DEVELOPMENT_BRANCH to the current branch."
 
 source "$(git --exec-path)/git-sh-setup"
 
@@ -27,8 +27,8 @@ function main() {
 
     git checkout $DEVELOPMENT_BRANCH
     git pull --ff-only
+    git merge --ff-only $current_branch
     git checkout $current_branch
-    git rebase $DEVELOPMENT_BRANCH
 
 }
 
