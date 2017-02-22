@@ -53,7 +53,7 @@ Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it.
 #### Close
 
 ```
-usage: git update
+usage: git close
 
 Updates DEVELOPMENT_BRANCH to the current branch.
 ```
