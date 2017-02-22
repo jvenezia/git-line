@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+USAGE="[<commit>]"
+LONG_USAGE="<commit> is the previous commit by default."
+
+source "$(git --exec-path)/git-sh-setup"
+
+function main() {
+
+    COMMIT=$1
+
+    previous_commit='HEAD'
+
+    if [[ -n $COMMIT ]]; then
+        commit_to_fixup=$COMMIT
+    else
+        commit_to_fixup=$previous_commit
+    fi
+
+    git add .
+    git commit --all --fixup $commit_to_fixup
+
+}
+
+main $@

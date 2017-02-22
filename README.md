@@ -20,6 +20,40 @@ cp $HOME/git-extensions/.git-extensions.conf.example my-project/.git-extensions.
 
 ## Extensions
 
+#### fixup
+
+Commit with autosquash formated message.
+If no commit is specified, it will use the previous commit. 
+
+Usage:
+```
+git squash [<commit>]
+```
+
+Examples:
+```bash
+git fixup
+git fixup HEAD^
+git fixup 541afa9e
+```
+
+#### Squash
+
+Interactive rebase with autosquash to the specified commit.
+If no commit is specified, it will use current branch's oldest ancestor from DEVELOPMENT_BRANCH.
+
+Usage:
+```
+git squash [<commit>]
+```
+
+Examples:
+```bash
+git squash
+git squash HEAD^
+git squash 541afa9e
+```
+
 #### Update
 
 Updates target branch from origin, then rebase current branch onto it.
@@ -34,22 +68,6 @@ Examples:
 ```bash
 git update
 git update develop
-```
-
-#### Squash
-
-Interactive rebase with autosquash to the specified commit.
-
-Usage:
-```
-git squash <commit>
-```
-
-Examples:
-```bash
-git squash 1
-git squash HEAD^
-git squash 541afa9e
 ```
 
 #### Remove Branch
