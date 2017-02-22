@@ -6,10 +6,8 @@ LONG_USAGE="Commit with autosquash formated message to fixup the previous commit
 source "$(git --exec-path)/git-sh-setup"
 
 function main() {
-
     git add .
     git commit --all --fixup HEAD
-
 }
 
 main

@@ -17,15 +17,13 @@ function setup_configuration() {
     fi
 
     if [[ -z $PROTECTED_BRANCHES ]] || [[ -z $DEVELOPMENT_BRANCH ]]; then
-        die 'Please create a .git-extensions.conf file in your git root directory and specify PROTECTED_BRANCHES and DEVELOPMENT_BRANCH.'
+        die 'error: Please create a .git-extensions.conf file in your git root directory and specify PROTECTED_BRANCHES and DEVELOPMENT_BRANCH.'
     fi
 }
 
 function main() {
-
     oldest_ancestor=$(diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent "${1:-$DEVELOPMENT_BRANCH}") <(git rev-list --first-parent "${2:-HEAD}") | head -1)
     git rebase --interactive --autosquash $oldest_ancestor
-
 }
 
 setup_configuration

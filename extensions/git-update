@@ -17,19 +17,21 @@ function setup_configuration() {
     fi
 
     if [[ -z $PROTECTED_BRANCHES ]] || [[ -z $DEVELOPMENT_BRANCH ]]; then
-        die 'Please create a .git-extensions.conf file in your git root directory and specify PROTECTED_BRANCHES and DEVELOPMENT_BRANCH.'
+        die 'error: Please create a .git-extensions.conf file in your git root directory and specify PROTECTED_BRANCHES and DEVELOPMENT_BRANCH.'
     fi
 }
 
 function main() {
-
     current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+    if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
+        die "error: Current branch \"$current_branch\" is protected."
+    fi
 
     git checkout $DEVELOPMENT_BRANCH
     git pull --ff-only
     git checkout $current_branch
     git rebase $DEVELOPMENT_BRANCH
-
 }
 
 setup_configuration
