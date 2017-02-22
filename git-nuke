@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE=""
-LONG_USAGE="Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it."
+LONG_USAGE="Removes current branch locally and from origin. It will not apply to branches listed in PROTECTED_BRANCHES."
 
 source "$(git --exec-path)/git-sh-setup"
 
@@ -23,8 +23,15 @@ function setup_configuration() {
 
 function main() {
 
-    git fetch origin $DEVELOPMENT_BRANCH:$DEVELOPMENT_BRANCH
-    git rebase $DEVELOPMENT_BRANCH
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+    if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
+        die "$current_branch branch is protected and will not be removed."
+    fi
+
+    git checkout $DEVELOPMENT_BRANCH
+    git branch -D $branch_to_remove
+    git push origin :$branch_to_remove
 
 }
 

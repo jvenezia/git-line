@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE=""
-LONG_USAGE=""
+LONG_USAGE="Remove all remote branches removed from origin."
 
 source "$(git --exec-path)/git-sh-setup"
 

@@ -1,3 +1,2 @@
 PROTECTED_BRANCHES='master develop'
-MAIN_BRANCH='master'
 DEVELOPMENT_BRANCH='develop'

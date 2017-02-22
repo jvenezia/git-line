@@ -20,79 +20,52 @@ cp $HOME/git-extensions/.git-extensions.conf.example my-project/.git-extensions.
 
 ## Extensions
 
-#### Fixup
+#### Fixup 
 
-Commit with autosquash formated message.
-If no commit is specified, it will use the previous commit. 
-
-Usage:
 ```
-git squash [<commit>]
-```
+usage: git fixup 
 
-Examples:
-```bash
-git fixup
-git fixup HEAD^
-git fixup 541afa9e
+Commit with autosquash formated message to fixup the previous commit.
 ```
 
 #### Squash
 
-Interactive rebase with autosquash to the specified commit.
-If no commit is specified, it will use current branch's oldest ancestor from DEVELOPMENT_BRANCH.
-
-Usage:
 ```
-git squash [<commit>]
-```
+usage: git squash 
 
-Examples:
-```bash
-git squash
-git squash HEAD^
-git squash 541afa9e
+Interactive rebase with autosquash to current branch's oldest ancestor from DEVELOPMENT_BRANCH.
 ```
 
 #### Update
 
-Updates target branch from origin, then rebase current branch onto it.
-If no base is specified, it will rebase on DEVELOPMENT_BRANCH.
-
-Usage:
 ```
-git update [<base>]
+usage: git update 
+
+Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it.
 ```
 
-Examples:
-```bash
-git update
-git update develop
+#### Close
+
+```
+usage: git update
+
+Updates DEVELOPMENT_BRANCH to the current branch.
 ```
 
-#### Remove Branch
+#### Nuke
 
-Removes specified branch locally and from origin.
-If no branch is specified, it will remove the current branch.
-
-Usage:
 ```
-git rm-branch [<branch>]
-```
+usage: git nuke 
 
-Examples:
-```bash
-git rm-branch
-git rm-branch feature
+Removes current branch locally and from origin. It will not apply to branches listed in PROTECTED_BRANCHES.
 ```
 
 #### Clean Repo
 
-Remove all remote branches removed from origin.
-
-Usage:
 ```
 git clean-repo
+
+Remove all remote branches removed from origin.
 ```
 
 ## License
