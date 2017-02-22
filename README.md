@@ -7,7 +7,7 @@ Clone this repository and the folder in your PATH.
 ```bash
 cd $HOME
 git clone git@github.com:jvenezia/git-extensions.git
-echo 'export PATH="$PATH:$HOME/git-extensions"' >> .zshrc
+echo 'export PATH="$PATH:$HOME/git-extensions/extensions"' >> .zshrc
 source .zshrc
 ```
 
@@ -16,6 +16,12 @@ Add a config file in your git project or in your home directory.
 ```bash
 cp $HOME/git-extensions/.git-extensions.conf.example $HOME/.git-extensions.conf
 cp $HOME/git-extensions/.git-extensions.conf.example my-project/.git-extensions.conf
+```
+
+You can optionally add aliases:
+
+```bash
+echo 'source $HOME/git-extensions/.aliases"' >> .zshrc
 ```
 
 ## Extensions
