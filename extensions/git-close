@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE=""
-LONG_USAGE="Updates DEVELOPMENT_BRANCH to the current branch."
+LONG_USAGE="Closes current feature branch by updating DEVELOPMENT_BRANCH into it."
 
 source "$(git --exec-path)/git-sh-setup"
 
