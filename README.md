@@ -26,6 +26,14 @@ echo 'source $HOME/git-extensions/.aliases"' >> .zshrc
 
 ## Extensions
 
+#### Feature
+
+```
+usage: git feature <feature>
+
+Creates a feature branch starting from DEVELOPMENT_BRANCH.
+```
+
 #### Fixup
 
 ```
