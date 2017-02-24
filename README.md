@@ -2,13 +2,10 @@
 
 ## Installation
 
-Clone this repository and the folder in your PATH.
-
 ```bash
-cd $HOME
-git clone git@github.com:jvenezia/git-extensions.git
-echo 'export PATH="$PATH:$HOME/git-extensions/extensions"' >> .zshrc
-source .zshrc
+curl -L -O https://raw.githubusercontent.com/jvenezia/git-line/master/git-line-installer.sh
+sudo bash git-line-installer.sh
+rm git-line-installer.sh
 ```
 
 Add a config file in your git project or in your home directory.
@@ -22,6 +19,14 @@ You can optionally add aliases:
 
 ```bash
 echo 'source $HOME/git-extensions/.aliases"' >> .zshrc
+```
+
+To uninstall:
+
+```bash
+curl -L -O https://raw.githubusercontent.com/jvenezia/git-line/master/git-line-installer.sh
+sudo bash git-line-installer.sh uninstall
+rm git-line-installer.sh
 ```
 
 ## Extensions
