@@ -3,9 +3,7 @@
 ## Installation
 
 ```bash
-curl -L -O https://raw.githubusercontent.com/jvenezia/git-line/master/git-line-installer.sh
-sudo bash git-line-installer.sh
-rm git-line-installer.sh
+curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/git-line-installer.sh | bash /dev/stdin install
 ```
 
 Add a config file in your git project or in your home directory.
@@ -24,9 +22,7 @@ echo 'source $HOME/git-extensions/.aliases"' >> .zshrc
 To uninstall:
 
 ```bash
-curl -L -O https://raw.githubusercontent.com/jvenezia/git-line/master/git-line-installer.sh
-sudo bash git-line-installer.sh uninstall
-rm git-line-installer.sh
+curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/git-line-installer.sh | bash /dev/stdin uninstall
 ```
 
 ## Extensions

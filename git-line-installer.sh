@@ -7,7 +7,7 @@ REPO="git@github.com:jvenezia/$REPO_NAME.git"
 SCRIPT_FILES="git-close git-feature git-fixup git-nuke git-squash git-update git-wipe"
 
 case $1 in
-    *)
+    install)
         echo "Installing git-line to $INSTALL_PATH."
         echo "Cloning repo from GitHub to $REPO_NAME."
 
