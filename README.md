@@ -1,4 +1,4 @@
-## Git Extensions
+## Git Line
 
 ## Installation
 

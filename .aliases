@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-alias gef='git fixup'
-alias ges='git squash'
-alias geu='git update'
-alias gec='git close'
-alias gen='git nuke'
-alias gew='git wipe'
+alias glf='git fixup'
+alias gls='git squash'
+alias glu='git update'
+alias glc='git close'
+alias gln='git nuke'
+alias glw='git wipe'
