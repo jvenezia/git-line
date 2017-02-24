@@ -12,18 +12,9 @@ function main() {
 
     install -v -d -m 0755 "$INSTALL_PATH"
 
-    #TO REMOVE
-    previous_path=$PWD
-    cd $REPO_NAME
-    git checkout "feature/install"
-
-    for script in scripts/*; do
-        echo $script
+    for script in $REPO_NAME/scripts/*; do
+        install -v -m 0755 $script "$INSTALL_PATH"
     done
-
-    #TO REMOVE
-    cd $previous_path
-    ##
 
     rm -rf git-line
 }
