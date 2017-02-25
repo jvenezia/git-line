@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE="<command>"
+LONG_USAGE=""
 
 source "$(git --exec-path)/git-sh-setup"
 
