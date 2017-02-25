@@ -2,7 +2,7 @@
 
 INSTALL_PATH="/usr/local/bin"
 REPO_NAME="git-line"
-REPO="git@github.com:jvenezia/$REPO_NAME.git"
+REPO_URL="git@github.com:jvenezia/$REPO_NAME.git"
 
 SCRIPT_FILES="git-close git-feature git-fixup git-nuke git-squash git-update git-wipe"
 
@@ -11,7 +11,7 @@ case $1 in
         echo "Installing git-line to $INSTALL_PATH."
         echo "Cloning repo from GitHub to $REPO_NAME."
 
-        git clone $REPO
+        git clone $REPO_URL
 
         install -v -d -m 0755 "$INSTALL_PATH"
 
