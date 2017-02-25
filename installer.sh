@@ -9,22 +9,42 @@ SCRIPT_FILES="git-close git-feature git-fixup git-nuke git-squash git-update git
 case $1 in
     install)
         echo "Installing git-line to $INSTALL_PATH."
-        echo "Cloning repo from GitHub to $REPO_NAME."
 
-        git clone $REPO_URL
+        if [[ -d "$REPO_NAME" ]] && [[ -d "$REPO_NAME/.git" ]]; then
+            echo "Using local repository $REPO_NAME."
+
+            REPO_PATH=$REPO_NAME
+            remove_repo_after_install=false
+        elif [[ -d "../$REPO_NAME" ]] && [[ -d ".git" ]]; then
+            echo "Using local current repository."
+
+            REPO_PATH="../$REPO_NAME"
+            remove_repo_after_install=false
+        else
+            echo "Cloning repo from GitHub to $REPO_NAME."
+
+            git clone $REPO_URL
+
+            REPO_PATH=$REPO_NAME
+            remove_repo_after_install=true
+        fi
 
         install -v -d -m 0755 "$INSTALL_PATH"
 
         for file in $SCRIPT_FILES; do
-            install -v -m 0755 "$REPO_NAME/scripts/$file" "$INSTALL_PATH"
+            install -v -m 0755 "$REPO_PATH/scripts/$file" "$INSTALL_PATH"
         done
+
+        if [[ $remove_repo_after_install == true ]]; then
+            rm -rf $REPO_PATH
+        fi
         ;;
 
     uninstall)
         echo "Uninstalling git-line from $INSTALL_PATH."
 
         for file in $SCRIPT_FILES; do
-            rm -v -f "$INSTALL_PATH/$file"
+            rm -vf "$INSTALL_PATH/$file"
         done
         ;;
 esac
