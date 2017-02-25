@@ -21,7 +21,7 @@ To uninstall:
 curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.sh | bash /dev/stdin uninstall
 ```
 
-## Extensions
+## Commands
 
 #### Start
 
