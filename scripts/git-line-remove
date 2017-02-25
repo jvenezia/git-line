@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE=""
-LONG_USAGE="Closes current feature branch by updating DEVELOPMENT_BRANCH into it."
+LONG_USAGE="Removes current branch locally and from origin. It will not apply to branches listed in PROTECTED_BRANCHES."
 
 source "$(git --exec-path)/git-sh-setup"
 
@@ -29,9 +29,8 @@ function main() {
     fi
 
     git checkout $DEVELOPMENT_BRANCH
-    git pull --ff-only
-    git merge --ff-only $current_branch
-    git checkout $current_branch
+    git branch -D $current_branch
+    git push origin :$current_branch
 }
 
 setup_configuration

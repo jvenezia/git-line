@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-USAGE=""
-LONG_USAGE="Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it."
+USAGE="<feature>"
+LONG_USAGE="Creates a feature branch starting from DEVELOPMENT_BRANCH."
 
 source "$(git --exec-path)/git-sh-setup"
 
@@ -22,17 +22,17 @@ function setup_configuration() {
 }
 
 function main() {
-    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    FEATURE_NAME=$2
 
-    if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
-        die "error: Current branch \"$current_branch\" is protected."
+    if [[ -z $FEATURE_NAME ]]; then
+        usage
+        exit 1
     fi
 
     git checkout $DEVELOPMENT_BRANCH
     git pull --ff-only
-    git checkout $current_branch
-    git rebase $DEVELOPMENT_BRANCH
+    git checkout -b "feature/$FEATURE_NAME"
 }
 
 setup_configuration
-main
+main $@

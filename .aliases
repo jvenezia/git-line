@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-alias glf='git fixup'
-alias gls='git squash'
-alias glu='git update'
-alias glc='git close'
-alias gln='git nuke'
-alias glw='git wipe'
+alias gl='git line'
+alias glw='git line clean'
+alias glc='git line close'
+alias glfi='git line fixup'
+alias gln='git line remove'
+alias gls='git line squash'
+alias glfe='git line start'
+alias glu='git line update'

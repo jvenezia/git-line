@@ -13,11 +13,7 @@ cp $HOME/git-extensions/.git-extensions.conf.example $HOME/.git-extensions.conf
 cp $HOME/git-extensions/.git-extensions.conf.example my-project/.git-extensions.conf
 ```
 
-You can optionally add aliases:
-
-```bash
-echo 'source $HOME/git-extensions/.aliases"' >> .zshrc
-```
+You can optionally add aliases in file `.aliases`.
 
 To uninstall:
 
@@ -27,10 +23,10 @@ curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.sh 
 
 ## Extensions
 
-#### Feature
+#### Start
 
 ```
-usage: git feature <feature>
+usage: git line start <feature>
 
 Creates a feature branch starting from DEVELOPMENT_BRANCH.
 ```
@@ -38,7 +34,7 @@ Creates a feature branch starting from DEVELOPMENT_BRANCH.
 #### Fixup
 
 ```
-usage: git fixup 
+usage: git line fixup 
 
 Commit with autosquash formated message to fixup the previous commit.
 ```
@@ -46,7 +42,7 @@ Commit with autosquash formated message to fixup the previous commit.
 #### Squash
 
 ```
-usage: git squash 
+usage: git line squash 
 
 Interactive rebase with autosquash to current branch's oldest ancestor from DEVELOPMENT_BRANCH.
 ```
@@ -54,7 +50,7 @@ Interactive rebase with autosquash to current branch's oldest ancestor from DEVE
 #### Update
 
 ```
-usage: git update 
+usage: git line update 
 
 Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it.
 ```
@@ -62,23 +58,23 @@ Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it.
 #### Close
 
 ```
-usage: git close
+usage: git line close
 
 Updates DEVELOPMENT_BRANCH to the current branch.
 ```
 
-#### Nuke
+#### Remove
 
 ```
-usage: git nuke 
+usage: git line remove
 
 Removes current branch locally and from origin. It will not apply to branches listed in PROTECTED_BRANCHES.
 ```
 
-#### Wipe
+#### Clean
 
 ```
-usage: git wipe
+usage: git line clean
 
 Remove all remote branches removed from origin.
 ```
