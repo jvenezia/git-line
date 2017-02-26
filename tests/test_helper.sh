@@ -25,9 +25,8 @@ function create_git_repo {
     git add . && git commit -a -m "init"
     git push --set-upstream origin master
 
-    touch .git-extensions.conf
-    echo "PROTECTED_BRANCHES='master'" >> .git-extensions.conf
-    echo "DEVELOPMENT_BRANCH='master'" >> .git-extensions.conf
+    git config git-line.development-branch 'master'
+    git config git-line.protected-branches 'master'
 
     cd ..
 }

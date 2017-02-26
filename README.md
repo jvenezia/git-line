@@ -2,15 +2,17 @@
 
 ## Installation
 
+Install git-line scripts:
+
 ```bash
 curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.sh | bash /dev/stdin install
 ```
 
-Add a config file in your git project or in your home directory.
+Configure your current git repository:
 
 ```bash
-cp $HOME/git-extensions/.git-extensions.conf.example $HOME/.git-extensions.conf
-cp $HOME/git-extensions/.git-extensions.conf.example my-project/.git-extensions.conf
+git config git-line.development-branch 'develop'
+git config git-line.protected-branches 'master develop'
 ```
 
 You can optionally add aliases in file `.aliases`.
