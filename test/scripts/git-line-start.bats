@@ -30,5 +30,5 @@ teardown() {
     run git line start
 
     assert_equal $status 1
-    assert_output --partial 'usage:'
+    assert_output --partial 'fail:'
 }
