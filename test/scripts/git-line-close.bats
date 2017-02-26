@@ -26,8 +26,8 @@ teardown() {
 
     development_branch_latest_commit=$(git log -n 1 --pretty=%H master)
     feature_branch_latest_commit=$(git log -n 1 --pretty=%H feature)
-    assert_equal $development_branch_latest_commit $feature_branch_latest_commit
+    assert_equal "$development_branch_latest_commit" "$feature_branch_latest_commit"
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal $current_branch 'feature'
+    assert_equal "$current_branch" "feature"
 }

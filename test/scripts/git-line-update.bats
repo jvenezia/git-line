@@ -35,5 +35,5 @@ teardown() {
     assert_output --partial "Applying: file"
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal $current_branch 'feature'
+    assert_equal "$current_branch" "feature"
 }

@@ -20,5 +20,5 @@ teardown() {
     run git line fixup
 
     commit_message=$(git log -1 --pretty=%B)
-    assert_equal $commit_message 'fixup! init'
+    assert_equal "$commit_message" "fixup! init"
 }

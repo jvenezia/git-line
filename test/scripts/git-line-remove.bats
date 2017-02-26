@@ -23,8 +23,8 @@ teardown() {
     run git line remove
 
     branches=$(git branch -a | tr '\n' ' ')
-    assert_equal $branches '* master   remotes/origin/master '
+    assert_equal "$branches" "* master   remotes/origin/master "
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal $current_branch 'master'
+    assert_equal "$current_branch" "master"
 }

@@ -23,7 +23,7 @@ teardown() {
     assert_output --partial "Already up-to-date."
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal $current_branch 'new_feature'
+    assert_equal "$current_branch" "new_feature"
 }
 
 @test "'git line start' displays usage when no feature is provided" {
