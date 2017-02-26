@@ -19,8 +19,13 @@ function clean_tests {
 }
 
 function create_git_repo {
-    git config --global user.email "test@test.com"
-    git config --global user.name "Test"
+    if [[ -z $(git config --global user.email) ]]; then
+        git config --global user.email "test@test.com"
+    fi
+
+    if [[ -z $(git config --global user.name) ]]; then
+        git config --global user.name "Test"
+    fi
 
     git init --bare remote_git_repo.git
 
