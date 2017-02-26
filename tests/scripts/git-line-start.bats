@@ -3,7 +3,7 @@
 load '/usr/local/lib/bats-support/load.bash'
 load '/usr/local/lib/bats-assert/load.bash'
 
-source 'tests/test_helper.sh'
+source 'tests/test_helper.bash'
 
 setup() {
     setup_tests
@@ -25,4 +25,11 @@ teardown() {
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal $current_branch 'feature/new_feature'
+}
+
+@test "'git line start' displays usage  no feature is provided" {
+    run git line start
+
+    assert_equal $status 1
+    assert_output --partial 'usage:'
 }

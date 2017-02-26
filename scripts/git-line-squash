@@ -4,7 +4,7 @@ USAGE=""
 LONG_USAGE="Interactive rebase with autosquash to current branch's oldest ancestor from DEVELOPMENT_BRANCH."
 
 source "$(git --exec-path)/git-sh-setup"
-source "git-line_utils.sh"
+source "git-line_utils.bash"
 
 function main() {
     oldest_ancestor=$(diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent "${1:-$DEVELOPMENT_BRANCH}") <(git rev-list --first-parent "${2:-HEAD}") | head -1)

@@ -5,7 +5,7 @@
 Install Git Line scripts:
 
 ```bash
-curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.sh | bash /dev/stdin install
+curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bash | bash /dev/stdin install
 ```
 
 Configure your current git repository:
@@ -20,7 +20,7 @@ You can optionally add aliases in file `.aliases`.
 To uninstall:
 
 ```bash
-curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.sh | bash /dev/stdin uninstall
+curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bash | bash /dev/stdin uninstall
 ```
 
 ## Commands

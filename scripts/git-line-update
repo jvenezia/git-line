@@ -4,7 +4,7 @@ USAGE=""
 LONG_USAGE="Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it."
 
 source "$(git --exec-path)/git-sh-setup"
-source "git-line_utils.sh"
+source "git-line_utils.bash"
 
 function main() {
     current_branch=$(git rev-parse --abbrev-ref HEAD)

@@ -4,7 +4,7 @@ USAGE="<feature>"
 LONG_USAGE="Creates a feature branch starting from DEVELOPMENT_BRANCH."
 
 source "$(git --exec-path)/git-sh-setup"
-source "git-line_utils.sh"
+source "git-line_utils.bash"
 
 function main() {
     FEATURE_NAME=$2

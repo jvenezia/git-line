@@ -4,7 +4,7 @@ USAGE=""
 LONG_USAGE="Removes current branch locally and from origin. It will not apply to branches listed in PROTECTED_BRANCHES."
 
 source "$(git --exec-path)/git-sh-setup"
-source "git-line_utils.sh"
+source "git-line_utils.bash"
 
 function main() {
     current_branch=$(git rev-parse --abbrev-ref HEAD)
