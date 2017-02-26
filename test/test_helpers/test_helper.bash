@@ -7,15 +7,15 @@ function setup_tests {
     export PATH="$PATH:$ROOT/scripts"
     chmod +x $ROOT/scripts/git-line
 
-    rm -fr tests/tmp
-    mkdir tests/tmp
-    cd tests/tmp
+    rm -fr test/tmp
+    mkdir test/tmp
+    cd test/tmp
 }
 
 function clean_tests {
     export PATH=$ORIGINAL_PATH
 
-    rm -fr $ROOT/tests/tmp
+    rm -fr $ROOT/test/tmp
 }
 
 function create_git_repo {

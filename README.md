@@ -83,18 +83,12 @@ Remove all remote branches removed from origin.
 
 ## Tests
 
-Install `bats` and `bats-assert`:
-
-```bash
-brew install bats
-brew tap kaos/shell
-brew install bats-assert
-```
+Install [bats](https://github.com/sstephenson/bats/wiki/Install-Bats-Using-a-Package).
 
 Run tests:
 
 ```bash
-bats tests/scripts
+bats test/scripts
 ```
 
 ## License
