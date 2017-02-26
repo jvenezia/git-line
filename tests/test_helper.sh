@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 function setup_tests {
-    ROOT_PATH=$PWD
+    ROOT=$PWD
+
+    ORIGINAL_PATH=$PATH
+    export PATH="$PATH:$ROOT/scripts"
+    chmod +x $ROOT/scripts/git-line
 
     rm -fr tests/tmp
     mkdir tests/tmp
@@ -9,7 +13,9 @@ function setup_tests {
 }
 
 function clean_tests {
-    rm -fr $ROOT_PATH/tests/tmp
+    export PATH=$ORIGINAL_PATH
+
+    rm -fr $ROOT/tests/tmp
 }
 
 function create_git_repo {
@@ -33,5 +39,7 @@ function create_git_repo {
 
 function debug {
     run bash -c "echo $1; false"
+    echo "==== DEBUG"
     echo "${output}"
+    echo "===="
 }

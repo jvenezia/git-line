@@ -1,6 +1,9 @@
 #!/usr/bin/env bats
 
-source "tests/test_helper.sh"
+load '/usr/local/lib/bats-support/load.bash'
+load '/usr/local/lib/bats-assert/load.bash'
+
+source 'tests/test_helper.sh'
 
 setup() {
     setup_tests
@@ -12,9 +15,14 @@ teardown() {
     clean_tests
 }
 
-@test "'git line start' creates a feature branch starting from DEVELOPMENT_BRANCH" {
-    git line start new_feature
+@test "'git line start' creates a feature branch starting from updated DEVELOPMENT_BRANCH" {
+    git checkout -b 'other_branch'
+
+    run git line start new_feature
+
+    assert_output --partial "Switched to branch 'master'"
+    assert_output --partial "Already up-to-date."
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    [[ $current_branch == 'feature/new_feature' ]]
+    assert_equal $current_branch 'feature/new_feature'
 }

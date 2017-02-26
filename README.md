@@ -81,6 +81,22 @@ usage: git line clean
 Remove all remote branches removed from origin.
 ```
 
+## Tests
+
+Install `bats` and `bats-assert`:
+
+```bash
+brew install bats
+brew tap kaos/shell
+brew install bats-assert
+```
+
+Run tests:
+
+```bash
+bats tests/scripts
+```
+
 ## License
 
 Released under the MIT License, which can be found in LICENSE.txt.
