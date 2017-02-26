@@ -16,7 +16,7 @@ function main() {
 
     git checkout $DEVELOPMENT_BRANCH
     git pull --ff-only
-    git checkout -b "feature/$FEATURE_NAME"
+    git checkout -b "$FEATURE_NAME"
 }
 
 setup_configuration
