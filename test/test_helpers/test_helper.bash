@@ -19,6 +19,9 @@ function clean_tests {
 }
 
 function create_git_repo {
+    git config --global user.email "test@test.com"
+    git config --global user.name "Test"
+
     git init --bare remote_git_repo.git
 
     mkdir git_repo
