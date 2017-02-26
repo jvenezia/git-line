@@ -2,7 +2,7 @@
 
 ## Installation
 
-Install git-line scripts:
+Install Git Line scripts:
 
 ```bash
 curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.sh | bash /dev/stdin install
