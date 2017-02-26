@@ -1,5 +1,7 @@
 ## Git Line
 
+[![Build Status](https://travis-ci.org/jvenezia/git-line.svg?branch=master)](https://travis-ci.org/jvenezia/git-line)
+
 ## Installation
 
 Install Git Line scripts:
