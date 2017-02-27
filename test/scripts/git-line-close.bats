@@ -21,12 +21,18 @@ teardown() {
 
     run git line close
 
+    # Assert checkout master
     assert_output --partial "Switched to branch 'master'"
+
+    # Assert git pull
     assert_output --partial "Already up-to-date."
 
     development_branch_latest_commit=$(git log -n 1 --pretty=%H master)
     feature_branch_latest_commit=$(git log -n 1 --pretty=%H feature)
     assert_equal "$development_branch_latest_commit" "$feature_branch_latest_commit"
+
+    # Assert git push
+    assert_output --partial "To ../remote_git_repo.git"
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "feature"

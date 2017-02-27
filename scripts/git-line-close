@@ -16,6 +16,7 @@ function main() {
     git checkout $DEVELOPMENT_BRANCH
     git pull --ff-only
     git merge --ff-only $current_branch
+    git push
     git checkout $current_branch
 }
 
