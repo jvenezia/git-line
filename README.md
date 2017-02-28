@@ -35,6 +35,14 @@ usage: git line start <feature>
 Creates a feature branch starting from DEVELOPMENT_BRANCH.
 ```
 
+#### Switch
+
+```
+usage: git line switch
+
+Switch between most recent branches.
+```
+
 #### Fixup
 
 ```

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+USAGE=""
+LONG_USAGE="Switch between most recent branches."
+
+source "$(git --exec-path)/git-sh-setup"
+
+function main() {
+    branches=$(git branch --sort=-committerdate | tr -d " " | tr -d "*" | tr "\n" " ")
+    IFS=' ' read -r -a branches_array <<< "$branches"
+
+    i=1
+    for branch in "${branches_array[@]}"; do
+        echo "$i: $branch"
+        let "i++"
+    done
+
+    read -p "Switch to branch number: " -r
+
+    selected_branch=$((REPLY-1))
+    git checkout ${branches_array[$selected_branch]}
+}
+
+main
