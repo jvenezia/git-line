@@ -6,7 +6,8 @@ LONG_USAGE="Switch between most recent branches."
 source "$(git --exec-path)/git-sh-setup"
 
 function main() {
-    branches=$(git branch --sort=-committerdate | tr -d " " | tr -d "*" | tr "\n" " ")
+    branches=$(git for-each-ref --sort=-committerdate refs/heads/ | grep -oE 'refs/heads/(.+)$' | tr -d " " | tr "\n" " ")
+    branches=${branches//refs\/heads\/}
     IFS=' ' read -r -a branches_array <<< "$branches"
 
     i=1
