@@ -18,6 +18,7 @@ teardown() {
     git checkout -b feature
     touch new_file
     git add . && git commit -a -m "new file"
+    git push --set-upstream origin feature
 
     run git line close
 
@@ -36,4 +37,7 @@ teardown() {
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "feature"
+
+    # Assert git push feature branch
+    assert_output --partial 'Everything up-to-date'
 }
