@@ -16,7 +16,12 @@ function main() {
         let "i++"
     done
 
-    read -p "Switch to branch number: " -r
+    if [[ ${#branches_array[@]} -lt 10 ]]; then
+        read -n1 -p "Switch to branch number: " -r
+        echo
+    else
+        read -p "Switch to branch number: " -r
+    fi
 
     selected_branch=$((REPLY-1))
     git checkout ${branches_array[$selected_branch]}
