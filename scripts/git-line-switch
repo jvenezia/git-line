@@ -4,15 +4,31 @@ USAGE=""
 LONG_USAGE="Switch between most recent branches."
 
 source "$(git --exec-path)/git-sh-setup"
+source "git-line_utils.bash"
 
 function main() {
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
     branches=$(git for-each-ref --sort=-committerdate refs/heads/ | grep -oE 'refs/heads/(.+)$' | tr -d " " | tr "\n" " ")
     branches=${branches//refs\/heads\/}
     IFS=' ' read -r -a branches_array <<< "$branches"
 
     i=1
     for branch in "${branches_array[@]}"; do
-        echo "$i: $branch"
+        STYLE=$(tput setaf 2)
+        PROTECTED_BRANCH_STYLE=$(tput setaf 3)
+        BOLD_STYLE=$(tput bold)
+        RESET_STYLE=$(tput sgr0)
+
+        if [[ $PROTECTED_BRANCHES =~ $branch ]]; then
+            STYLE=$PROTECTED_BRANCH_STYLE
+        fi
+
+        if [[ $current_branch == $branch ]]; then
+            STYLE="$STYLE$BOLD_STYLE"
+        fi
+
+        echo -e "$STYLE$BOLD_STYLE$i$RESET_STYLE$STYLE: $branch$RESET_STYLE"
+
         let "i++"
     done
 
@@ -24,7 +40,11 @@ function main() {
     fi
 
     selected_branch=$((REPLY-1))
-    git checkout ${branches_array[$selected_branch]}
+
+    if [[ $selected_branch =~ ^[0-9]+$ ]]; then
+        git checkout ${branches_array[$selected_branch]}
+    fi
 }
 
+setup_configuration
 main

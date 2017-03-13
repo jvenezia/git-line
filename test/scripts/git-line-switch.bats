@@ -14,7 +14,7 @@ teardown() {
     clean_tests
 }
 
-@test "'git line switch' checkouts selected branch" {
+create_commits_and_branches() {
     touch old_file
     git add .
     GIT_COMMITTER_DATE="Wed Feb 13 14:00 2016 +0100" git commit -am 'old file'
@@ -23,14 +23,27 @@ teardown() {
     touch new_file
     git add .
     GIT_COMMITTER_DATE="Wed Feb 13 14:00 2018 +0100" git commit -am 'new file'
+}
 
-    echo 1 |git line switch
-
-    current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "branch"
+@test "'git line switch' checkouts selected branch" {
+    create_commits_and_branches
 
     echo 2 |git line switch
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "master"
+
+    echo 1 |git line switch
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "branch"
+}
+
+@test "'git line switch' ignores non digit reply" {
+    create_commits_and_branches
+
+    echo "a" |git line switch
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "branch"
 }
