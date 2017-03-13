@@ -41,6 +41,7 @@ function create_git_repo {
 
     git config git-line.development-branch 'master'
     git config git-line.protected-branches 'master'
+    git config git-line.branch-prefix-enabled 'false'
 
     cd ..
 }

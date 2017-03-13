@@ -26,6 +26,16 @@ teardown() {
     assert_equal "$current_branch" "new_feature"
 }
 
+@test "'git line start' with branch prefix" {
+    git config git-line.branch-prefix-enabled 'true'
+    git config git-line.branch-prefix 'prefix'
+
+    run git line start new_feature
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "prefix/new_feature"
+}
+
 @test "'git line start' displays usage when no feature is provided" {
     run git line start
 

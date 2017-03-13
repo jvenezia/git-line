@@ -16,6 +16,11 @@ function main() {
 
     git checkout $DEVELOPMENT_BRANCH
     git pull --ff-only
+
+    if [[ "$BRANCH_PREFIX_ENABLED" == "true" ]]; then
+        FEATURE_NAME="$BRANCH_PREFIX/$FEATURE_NAME"
+    fi
+
     git checkout -b "$FEATURE_NAME"
 }
 
