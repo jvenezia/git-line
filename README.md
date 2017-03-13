@@ -10,11 +10,16 @@ Install Git Line scripts:
 curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bash | bash /dev/stdin install
 ```
 
-Configure your current git repository:
+When using the commands for the first time, an interactive prompt will show to configure the current git repository.
+
+To configure your current git repository manually:
 
 ```bash
 git config git-line.development-branch 'develop'
 git config git-line.protected-branches 'master develop'
+
+git config git-line.branch-prefix-enabled 'true'
+git config git-line.branch-prefix 'feature'
 ```
 
 You can optionally add aliases in file `.aliases`.
