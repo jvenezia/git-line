@@ -17,12 +17,15 @@ teardown() {
 create_commits_and_branches() {
     touch old_file
     git add .
-    GIT_COMMITTER_DATE="Wed Feb 13 14:00 2016 +0100" git commit -am 'old file'
+    GIT_COMMITTER_DATE="Wed Feb 13 14:00 2016 +0100" git commit -am 'old file commit'
 
     git checkout -b 'branch'
     touch new_file
     git add .
-    GIT_COMMITTER_DATE="Wed Feb 13 14:00 2018 +0100" git commit -am 'new file'
+    GIT_COMMITTER_DATE="Wed Feb 13 14:00 2018 +0100" git commit -am 'new file commit'
+
+    touch file_to_stash
+    git add .
 }
 
 @test "'git line switch' checkouts selected branch" {
@@ -37,6 +40,27 @@ create_commits_and_branches() {
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "branch"
+}
+
+@test "'git line switch' stashes before checkout" {
+    create_commits_and_branches
+
+    echo 2 |git line switch
+
+    run git stash show "stash^{/branch-stash/branch}" -p
+
+    assert_output --partial 'diff --git a/file_to_stash b/file_to_stash'
+}
+
+@test "'git line switch' apply stash after checkout" {
+    create_commits_and_branches
+
+    echo 2 |git line switch
+    echo 1 |git line switch
+
+    run git status
+
+    assert_output --partial 'new file:   file_to_stash'
 }
 
 @test "'git line switch' ignores non digit reply" {
