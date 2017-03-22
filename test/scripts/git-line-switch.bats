@@ -42,27 +42,6 @@ create_commits_and_branches() {
     assert_equal "$current_branch" "branch"
 }
 
-@test "'git line switch' stashes before checkout" {
-    create_commits_and_branches
-
-    echo 2 |git line switch
-
-    run git stash show "stash^{/branch-stash/branch}" -p
-
-    assert_output --partial 'diff --git a/file_to_stash b/file_to_stash'
-}
-
-@test "'git line switch' apply stash after checkout" {
-    create_commits_and_branches
-
-    echo 2 |git line switch
-    echo 1 |git line switch
-
-    run git status
-
-    assert_output --partial 'new file:   file_to_stash'
-}
-
 @test "'git line switch' ignores non digit reply" {
     create_commits_and_branches
 

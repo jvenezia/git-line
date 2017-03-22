@@ -42,12 +42,8 @@ function main() {
     selected_branch_number=$((REPLY-1))
 
     if [[ $selected_branch_number =~ ^[0-9]+$ ]]; then
-        git stash save "branch-stash/$current_branch"
-
         selected_branch=${branches_array[$selected_branch_number]}
         git checkout $selected_branch
-
-        git stash apply "stash^{/branch-stash/$selected_branch}" || true
     fi
 }
 
