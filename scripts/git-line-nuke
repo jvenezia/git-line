@@ -4,9 +4,21 @@ USAGE=""
 LONG_USAGE="Remove all remote branches removed from origin and all local branches without a remote branch."
 
 source "$(git --exec-path)/git-sh-setup"
+source "git-line_utils.bash"
 
 function main() {
     git fetch --all --prune
+
+    branches_with_gone_remote=$(git branch -vv |cut -c 3- |awk '$4 ~/gone\]/ { print $1}')
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+    if [[ $branches_with_gone_remote =~ $current_branch ]]; then
+        git checkout $DEVELOPMENT_BRANCH
+    fi
+
+    git branch -D $branches_with_gone_remote
 }
 
+setup_configuration
 main

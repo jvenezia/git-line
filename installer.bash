@@ -4,7 +4,7 @@ INSTALL_PATH="/usr/local/bin"
 REPO_NAME="git-line"
 REPO_URL="git@github.com:jvenezia/$REPO_NAME.git"
 
-SCRIPT_FILES="git-line_utils.bash git-line git-line-clean git-line-close git-line-fixup git-line-remove git-line-squash git-line-start git-line-switch git-line-update"
+SCRIPT_FILES="git-line_utils.bash git-line git-line-close git-line-fixup git-line-nuke git-line-remove git-line-squash git-line-start git-line-switch git-line-update"
 
 case $1 in
     install)

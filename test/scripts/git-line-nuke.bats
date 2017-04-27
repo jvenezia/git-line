@@ -15,13 +15,24 @@ teardown() {
 }
 
 @test "'git line clean' removes all remote branches removed from origin" {
-    git checkout -b feature
-    touch new_file
-    git add . && git commit -a -m "file"
-    git push --set-upstream origin feature
-    git push origin :feature
+    git checkout -b branch-without-remote
+
+    git checkout -b branch-with-remote
+    git push --set-upstream origin branch-with-remote
+
+    git checkout -b branch-with-gone-remote
+    git push --set-upstream origin branch-with-gone-remote
+    git push origin :branch-with-gone-remote
+
+    git checkout -b other-branch-with-gone-remote
+    git push --set-upstream origin other-branch-with-gone-remote
+    git push origin :other-branch-with-gone-remote
 
     run git line nuke
 
-    assert_output --partial 'Fetching origin'
+    branches=$(git branch -a | tr '\n' ' ')
+    assert_equal "$branches" "  branch-with-remote   branch-without-remote * master   remotes/origin/branch-with-remote   remotes/origin/master "
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "master"
 }
