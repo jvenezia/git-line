@@ -14,7 +14,7 @@ teardown() {
     clean_tests
 }
 
-@test "'git line clean' removes all remote branches removed from origin" {
+@test "'git line nuke' removes all remote branches removed from origin" {
     git checkout -b branch-without-remote
 
     git checkout -b branch-with-remote
