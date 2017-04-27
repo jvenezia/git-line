@@ -91,9 +91,9 @@ Removes current branch locally and from origin. It will not apply to branches li
 #### Clean
 
 ```
-usage: git line clean
+usage: git line nuke
 
-Remove all remote branches removed from origin.
+Remove all remote branches removed from origin and all local branches without a remote branch.
 ```
 
 ## Tests

@@ -21,7 +21,7 @@ teardown() {
     git push --set-upstream origin feature
     git push origin :feature
 
-    run git line clean
+    run git line nuke
 
     assert_output --partial 'Fetching origin'
 }
