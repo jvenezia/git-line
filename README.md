@@ -88,7 +88,7 @@ usage: git line remove
 Removes current branch locally and from origin. It will not apply to branches listed in PROTECTED_BRANCHES.
 ```
 
-#### Clean
+#### Nuke
 
 ```
 usage: git line nuke
