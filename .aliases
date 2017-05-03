@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 alias gl='git line'
-alias glnu='git line nuke'
 alias glcl='git line close'
 alias glfi='git line fixup'
+alias glnu='git line nuke'
+alias glpu='git line push'
 alias glre='git line remove'
 alias glsq='git line squash'
 alias glst='git line start'

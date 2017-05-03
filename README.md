@@ -40,6 +40,14 @@ usage: git line start <feature>
 Creates a feature branch starting from DEVELOPMENT_BRANCH.
 ```
 
+### Push
+
+```
+usage: git line push
+
+Push the current branch and set an upstream if needed.
+```
+
 #### Switch
 
 ```
