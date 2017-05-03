@@ -1,51 +1,67 @@
 #!/usr/bin/env bash
 
 USAGE=""
-LONG_USAGE="Switch between most recent branches."
+LONG_USAGE="Lists most recent branches and checkout selected one, or checkouts branch matching <partial_branch_name> if provided."
 
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
 
 function main() {
+    PARTIAL_BRANCH_NAME=$2
+
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     branches=$(git for-each-ref --sort=-committerdate refs/heads/ | grep -oE 'refs/heads/(.+)$' | tr -d " " | tr "\n" " ")
     branches=${branches//refs\/heads\/}
     IFS=' ' read -r -a branches_array <<< "$branches"
 
-    i=1
-    for branch in "${branches_array[@]}"; do
-        STYLE=$(tput setaf 2)
-        PROTECTED_BRANCH_STYLE=$(tput setaf 3)
-        BOLD_STYLE=$(tput bold)
-        RESET_STYLE=$(tput sgr0)
+    if [[ -z $PARTIAL_BRANCH_NAME ]]; then
+        i=1
+        for branch in "${branches_array[@]}"; do
+            STYLE=$(tput setaf 2)
+            PROTECTED_BRANCH_STYLE=$(tput setaf 3)
+            BOLD_STYLE=$(tput bold)
+            RESET_STYLE=$(tput sgr0)
 
-        if [[ $PROTECTED_BRANCHES =~ $branch ]]; then
-            STYLE=$PROTECTED_BRANCH_STYLE
+            if [[ $PROTECTED_BRANCHES =~ $branch ]]; then
+                STYLE=$PROTECTED_BRANCH_STYLE
+            fi
+
+            if [[ $current_branch == $branch ]]; then
+                STYLE="$STYLE$BOLD_STYLE"
+            fi
+
+            echo -e "$STYLE$BOLD_STYLE$i$RESET_STYLE$STYLE: $branch$RESET_STYLE"
+
+            let "i++"
+        done
+
+        if [[ ${#branches_array[@]} -lt 10 ]]; then
+            read -n1 -p "Switch to branch number: " -r
+            echo
+        else
+            read -p "Switch to branch number: " -r
         fi
 
-        if [[ $current_branch == $branch ]]; then
-            STYLE="$STYLE$BOLD_STYLE"
+        selected_branch_number=$((REPLY-1))
+
+        if [[ $selected_branch_number =~ ^[0-9]+$ ]]; then
+            selected_branch=${branches_array[$selected_branch_number]}
+            git checkout $selected_branch
         fi
-
-        echo -e "$STYLE$BOLD_STYLE$i$RESET_STYLE$STYLE: $branch$RESET_STYLE"
-
-        let "i++"
-    done
-
-    if [[ ${#branches_array[@]} -lt 10 ]]; then
-        read -n1 -p "Switch to branch number: " -r
-        echo
     else
-        read -p "Switch to branch number: " -r
-    fi
+        selected_branch=''
+        i=1
+        for branch in "${branches_array[@]}"; do
+            if [[ $branch =~ $PARTIAL_BRANCH_NAME ]]; then
+                selected_branch=$branch
+            fi
+        done
 
-    selected_branch_number=$((REPLY-1))
-
-    if [[ $selected_branch_number =~ ^[0-9]+$ ]]; then
-        selected_branch=${branches_array[$selected_branch_number]}
-        git checkout $selected_branch
+        if [[ ! -z $selected_branch ]]; then
+            git checkout $selected_branch
+        fi
     fi
 }
 
 setup_configuration
-main
+main $@

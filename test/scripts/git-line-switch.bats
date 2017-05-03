@@ -50,3 +50,22 @@ create_commits_and_branches() {
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "branch"
 }
+
+@test "'git line switch' using partial branch name in argument" {
+    create_commits_and_branches
+
+    git line switch mast
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "master"
+
+    git line switch bran
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "branch"
+
+    git line switch incorrect
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "branch"
+}

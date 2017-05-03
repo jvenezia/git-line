@@ -51,9 +51,9 @@ Push the current branch and set an upstream if needed.
 #### Switch
 
 ```
-usage: git line switch
+usage: git line switch [<partial_branch_name>]
 
-Switch between most recent branches.
+Lists most recent branches and checkout selected one, or checkouts branch matching <partial_branch_name> if provided.
 ```
 
 #### Fixup
