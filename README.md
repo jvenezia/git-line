@@ -101,7 +101,7 @@ Removes current branch locally and from origin. It will not apply to branches li
 ```
 usage: git line nuke
 
-Remove all remote branches removed from origin and all local branches without a remote branch.
+Remove all remote branches removed from origin and all local branches which remote is gone. It will not remove branches which never had remotes.
 ```
 
 ## Tests

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE=""
-LONG_USAGE="Remove all remote branches removed from origin and all local branches without a remote branch."
+LONG_USAGE="Remove all remote branches removed from origin and all local branches which remote is gone. It will not remove branches which never had remotes."
 
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
