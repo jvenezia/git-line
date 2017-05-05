@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-USAGE=""
+USAGE="[<partial_branch_name>]"
 LONG_USAGE="Lists most recent branches and checkout selected one, or checkouts branch matching <partial_branch_name> if provided."
 
 source "$(git --exec-path)/git-sh-setup"
