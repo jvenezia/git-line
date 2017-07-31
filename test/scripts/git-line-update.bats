@@ -15,25 +15,25 @@ teardown() {
 }
 
 @test "'git line update' updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it" {
-    git checkout -b feature
-    touch new_file
-    git add . && git commit -a -m "file"
-    git push --set-upstream origin feature
-
     git checkout master
     touch other_file
-    git add . && git commit -a -m "file"
+    git add . && git commit -a -m "master commit"
     git push
+    git reset --hard HEAD^
 
-    git checkout feature
+    git checkout -b feature
+    touch new_file
+    git add . && git commit -a -m "feature commit"
 
     run git line update
 
-    assert_output --partial "Switched to branch 'master'"
-    assert_output --partial "Already up-to-date."
-    assert_output --partial "Switched to branch 'feature'"
-    assert_output --partial "Applying: file"
-
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "feature"
+    assert_equal $current_branch "feature"
+
+    master_commit=$(git log master -1 --oneline)
+    origin_master_commit=$(git log origin/master -1 --oneline)
+    assert_equal $master_commit $origin_master_commit
+
+    previous_commit=$(git log HEAD~1 -1 --oneline)
+    assert_equal $previous_commit $master_commit
 }

@@ -13,9 +13,7 @@ function main() {
         die "error: Current branch \"$current_branch\" is protected."
     fi
 
-    git checkout $DEVELOPMENT_BRANCH
-    git pull --ff-only
-    git checkout $current_branch
+    git fetch origin $DEVELOPMENT_BRANCH:$DEVELOPMENT_BRANCH
     git rebase $DEVELOPMENT_BRANCH
 }
 
