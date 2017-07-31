@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE=""
-LONG_USAGE="Closes current feature branch by updating DEVELOPMENT_BRANCH into it."
+LONG_USAGE="Finishes current branch by squashing all commits into one on DEVELOPMENT_BRANCH."
 
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
@@ -15,10 +15,11 @@ function main() {
 
     git checkout $DEVELOPMENT_BRANCH
     git pull --ff-only
-    git merge --ff-only $current_branch
-    git push
-    git checkout $current_branch
-    git push
+
+    git merge --squash $current_branch
+
+    commit_message=$(echo "$current_branch" | tr _-/ \ )
+    git commit -am "$commit_message"
 }
 
 setup_configuration

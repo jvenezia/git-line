@@ -80,12 +80,12 @@ usage: git line update
 Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it.
 ```
 
-#### Close
+#### Finish
 
 ```
-usage: git line close
+usage: git line finish
 
-Updates DEVELOPMENT_BRANCH to the current branch.
+Finishes current branch by squashing all commits into one on DEVELOPMENT_BRANCH.
 ```
 
 #### Remove
