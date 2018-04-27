@@ -20,7 +20,7 @@ teardown() {
     run git line start new_feature
 
     assert_output --partial "Switched to branch 'master'"
-    assert_output --partial "Already up-to-date."
+    assert_output --partial "Already up to date."
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "new_feature"
