@@ -7,7 +7,9 @@ source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
 
 function main() {
-    COMMIT_MESSAGE=${@#$1}
+    MAIN_ARGUMENT=$(echo "${@#$1}" | sed -e 's/^[[:space:]]*//')
+    COMMIT_MESSAGE=${MAIN_ARGUMENT}
+
     current_branch=$(git rev-parse --abbrev-ref HEAD)
 
     if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then

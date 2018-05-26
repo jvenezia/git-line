@@ -7,7 +7,8 @@ source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
 
 function main() {
-    BRANCH_NAME=$2
+    MAIN_ARGUMENT=$(echo "${@#$1}" | sed -e 's/^[[:space:]]*//')
+    BRANCH_NAME=$(echo "$MAIN_ARGUMENT" | tr \  -)
 
     if [[ -z $BRANCH_NAME ]]; then
         usage

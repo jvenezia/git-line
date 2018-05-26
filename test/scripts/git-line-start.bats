@@ -17,26 +17,36 @@ teardown() {
 @test "'git line start' creates a feature branch starting from updated DEVELOPMENT_BRANCH" {
     git checkout -b 'other_branch'
 
-    run git line start new_feature
+    run git line start new-branch
 
     assert_output --partial "Switched to branch 'master'"
     assert_output --partial "Already up to date."
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "new_feature"
+    assert_equal "$current_branch" "new-branch"
+}
+
+@test "'git line start' when branch name has spaces" {
+    git config git-line.branch-prefix-enabled 'true'
+    git config git-line.branch-prefix 'prefix'
+
+    run git line start "new branch"
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "prefix/new-branch"
 }
 
 @test "'git line start' with branch prefix" {
     git config git-line.branch-prefix-enabled 'true'
     git config git-line.branch-prefix 'prefix'
 
-    run git line start new_feature
+    run git line start new-branch
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "prefix/new_feature"
+    assert_equal "$current_branch" "prefix/new-branch"
 }
 
-@test "'git line start' displays usage when no feature is provided" {
+@test "'git line start' displays usage when no branch name is provided" {
     run git line start
 
     assert_equal $status 1
