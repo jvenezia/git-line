@@ -3,6 +3,7 @@
 USAGE=""
 LONG_USAGE="Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it."
 
+# shellcheck source=src/lib.sh
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
 
