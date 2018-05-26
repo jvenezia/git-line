@@ -35,7 +35,7 @@ curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bas
 #### Start
 
 ```
-usage: git line start <feature>
+usage: git line start <branch_name>
 
 Creates a feature branch starting from DEVELOPMENT_BRANCH.
 ```
@@ -56,14 +56,6 @@ usage: git line switch [<partial_branch_name>]
 Lists most recent branches and checkout selected one, or checkouts branch matching <partial_branch_name> if provided.
 ```
 
-#### Fixup
-
-```
-usage: git line fixup 
-
-Commit with autosquash formated message to fixup the previous commit.
-```
-
 #### Edit
 
 ```
@@ -80,12 +72,12 @@ usage: git line update
 Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it.
 ```
 
-#### Finish
+#### Squash
 
 ```
-usage: git line finish
+usage: git line squash [<commit_message>]
 
-Finishes current branch by squashing all commits into one on DEVELOPMENT_BRANCH.
+Squash all commits of current branch into one. It will not apply to branches listed in PROTECTED_BRANCHES.
 ```
 
 #### Remove

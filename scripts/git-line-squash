@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+USAGE="[<commit_message>]"
+LONG_USAGE="Squash all commits of current branch into one. It will not apply to branches listed in PROTECTED_BRANCHES."
+
+source "$(git --exec-path)/git-sh-setup"
+source "git-line_utils.bash"
+
+function main() {
+    COMMIT_MESSAGE=${@#$1}
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+    if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
+        die "error: Current branch \"$current_branch\" is protected."
+    fi
+
+    oldest_ancestor=$(diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent $DEVELOPMENT_BRANCH) <(git rev-list --first-parent HEAD) | head -1)
+    git reset $oldest_ancestor
+    git add .
+
+    if [[ -z $COMMIT_MESSAGE ]]; then
+        commit_message=$(echo "$current_branch" | tr _-/ \ )
+    else
+        commit_message=$COMMIT_MESSAGE
+    fi
+
+    git commit -am "$commit_message"
+}
+
+setup_configuration
+main $@

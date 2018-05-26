@@ -7,7 +7,7 @@ source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
 
 function main() {
-    oldest_ancestor=$(diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent "${1:-$DEVELOPMENT_BRANCH}") <(git rev-list --first-parent "${2:-HEAD}") | head -1)
+    oldest_ancestor=$(diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent $DEVELOPMENT_BRANCH) <(git rev-list --first-parent HEAD) | head -1)
     git rebase --interactive --autosquash $oldest_ancestor
 }
 
