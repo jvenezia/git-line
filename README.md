@@ -64,10 +64,10 @@ usage: git line fixup
 Commit with autosquash formated message to fixup the previous commit.
 ```
 
-#### Squash
+#### Edit
 
 ```
-usage: git line squash 
+usage: git line edit 
 
 Interactive rebase with autosquash to current branch's oldest ancestor from DEVELOPMENT_BRANCH.
 ```
