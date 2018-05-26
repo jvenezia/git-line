@@ -6,24 +6,20 @@ LONG_USAGE="Creates a branch starting from DEVELOPMENT_BRANCH."
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
 
-function main() {
-    MAIN_ARGUMENT=$(echo "${@#$1}" | sed -e 's/^[[:space:]]*//')
-    BRANCH_NAME=$(echo "$MAIN_ARGUMENT" | tr \  -)
-
-    if [[ -z $BRANCH_NAME ]]; then
-        usage
-        exit 1
-    fi
-
-    git checkout $DEVELOPMENT_BRANCH
-    git pull --ff-only
-
-    if [[ "$BRANCH_PREFIX_ENABLED" == "true" ]]; then
-        BRANCH_NAME="$BRANCH_PREFIX/$BRANCH_NAME"
-    fi
-
-    git checkout -b "$BRANCH_NAME"
-}
-
 setup_configuration
-main "$@"
+
+BRANCH_NAME=$(echo "$2" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | tr \  -)
+
+if [[ -z $BRANCH_NAME ]] || [[ -n $3 ]]; then
+    usage
+    exit 1
+fi
+
+git checkout $DEVELOPMENT_BRANCH
+git pull --ff-only
+
+if [[ "$BRANCH_PREFIX_ENABLED" == "true" ]]; then
+    BRANCH_NAME="$BRANCH_PREFIX/$BRANCH_NAME"
+fi
+
+git checkout -b "$BRANCH_NAME"

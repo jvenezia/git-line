@@ -5,14 +5,10 @@ LONG_USAGE="Push the current branch and set an upstream if needed."
 
 source "$(git --exec-path)/git-sh-setup"
 
-function main() {
-    current_branch=$(git rev-parse --abbrev-ref HEAD)
+current_branch=$(git rev-parse --abbrev-ref HEAD)
 
-    if [[ $(git config "branch.$current_branch.merge") = '' ]]; then
-        git push --set-upstream origin $current_branch
-    else
-        git push
-    fi
-}
-
-main
+if [[ $(git config "branch.$current_branch.merge") = '' ]]; then
+    git push --set-upstream origin $current_branch
+else
+    git push
+fi

@@ -5,15 +5,11 @@ LONG_USAGE=""
 
 source "$(git --exec-path)/git-sh-setup"
 
-function main() {
-   COMMAND=$1
+COMMAND=$1
 
-    if [[ -z $COMMAND ]]; then
-        usage
-        exit 1
-    fi
+if [[ -z $COMMAND ]]; then
+    usage
+    exit 1
+fi
 
-    source "git-line-$COMMAND"
-}
-
-main "$@"
+source "git-line-$COMMAND"

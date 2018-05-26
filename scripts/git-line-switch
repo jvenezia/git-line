@@ -6,62 +6,59 @@ LONG_USAGE="Lists most recent branches and checkout selected one, or checkouts b
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
 
-function main() {
-    PARTIAL_BRANCH_NAME=$2
-
-    current_branch=$(git rev-parse --abbrev-ref HEAD)
-    branches=$(git for-each-ref --sort=-committerdate refs/heads/ | grep -oE 'refs/heads/(.+)$' | tr -d " " | tr "\n" " ")
-    branches=${branches//refs\/heads\/}
-    IFS=' ' read -r -a branches_array <<< "$branches"
-
-    if [[ -z $PARTIAL_BRANCH_NAME ]]; then
-        i=1
-        for branch in "${branches_array[@]}"; do
-            style=$(tput setaf 2)
-            protected_branch_style=$(tput setaf 3)
-            bold_style=$(tput bold)
-            reset_style=$(tput sgr0)
-
-            if [[ $PROTECTED_BRANCHES =~ $branch ]]; then
-                style=$protected_branch_style
-            fi
-
-            if [[ $current_branch == $branch ]]; then
-                style="$style$bold_style"
-            fi
-
-            echo -e "$style$bold_style$i$reset_style$style: $branch$reset_style"
-
-            let "i++"
-        done
-
-        if [[ ${#branches_array[@]} -lt 10 ]]; then
-            read -n1 -p "Switch to branch number: " -r
-            echo
-        else
-            read -p "Switch to branch number: " -r
-        fi
-
-        selected_branch_number=$((REPLY-1))
-
-        if [[ $selected_branch_number =~ ^[0-9]+$ ]]; then
-            selected_branch=${branches_array[$selected_branch_number]}
-            git checkout $selected_branch
-        fi
-    else
-        selected_branch=''
-        i=1
-        for branch in "${branches_array[@]}"; do
-            if [[ $branch =~ $PARTIAL_BRANCH_NAME ]]; then
-                selected_branch=$branch
-            fi
-        done
-
-        if [[ ! -z $selected_branch ]]; then
-            git checkout $selected_branch
-        fi
-    fi
-}
-
 setup_configuration
-main "$@"
+
+PARTIAL_BRANCH_NAME=$2
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+branches=$(git for-each-ref --sort=-committerdate refs/heads/ | grep -oE 'refs/heads/(.+)$' | tr -d " " | tr "\n" " ")
+branches=${branches//refs\/heads\/}
+IFS=' ' read -r -a branches_array <<< "$branches"
+
+if [[ -n $PARTIAL_BRANCH_NAME ]]; then
+    selected_branch=''
+    i=1
+    for branch in "${branches_array[@]}"; do
+        if [[ $branch =~ $PARTIAL_BRANCH_NAME ]]; then
+            selected_branch=$branch
+        fi
+    done
+
+    if [[ ! -z $selected_branch ]]; then
+        git checkout $selected_branch
+    fi
+else
+    i=1
+    for branch in "${branches_array[@]}"; do
+        style=$(tput setaf 2)
+        protected_branch_style=$(tput setaf 3)
+        bold_style=$(tput bold)
+        reset_style=$(tput sgr0)
+
+        if [[ $PROTECTED_BRANCHES =~ $branch ]]; then
+            style=$protected_branch_style
+        fi
+
+        if [[ $current_branch == $branch ]]; then
+            style="$style$bold_style"
+        fi
+
+        echo -e "$style$bold_style$i$reset_style$style: $branch$reset_style"
+
+        let "i++"
+    done
+
+    if [[ ${#branches_array[@]} -lt 10 ]]; then
+        read -n1 -p "Switch to branch number: " -r
+        echo
+    else
+        read -p "Switch to branch number: " -r
+    fi
+
+    selected_branch_number=$((REPLY-1))
+
+    if [[ $selected_branch_number =~ ^[0-9]+$ ]]; then
+        selected_branch=${branches_array[$selected_branch_number]}
+        git checkout $selected_branch
+    fi
+fi

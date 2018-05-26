@@ -30,7 +30,7 @@ teardown() {
     git config git-line.branch-prefix-enabled 'true'
     git config git-line.branch-prefix 'prefix'
 
-    run git line start "new branch"
+    run git line start " new branch "
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "prefix/new-branch"
@@ -48,6 +48,13 @@ teardown() {
 
 @test "'git line start' displays usage when no branch name is provided" {
     run git line start
+
+    assert_equal $status 1
+    assert_output --partial 'usage:'
+}
+
+@test "'git line start' displays usage when too many arguments are provided" {
+    run git line start too many
 
     assert_equal $status 1
     assert_output --partial 'usage:'

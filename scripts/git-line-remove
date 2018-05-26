@@ -6,17 +6,14 @@ LONG_USAGE="Removes current branch locally and from origin. It will not apply to
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
 
-function main() {
-    current_branch=$(git rev-parse --abbrev-ref HEAD)
-
-    if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
-        die "error: Current branch \"$current_branch\" is protected."
-    fi
-
-    git checkout $DEVELOPMENT_BRANCH
-    git branch -D $current_branch
-    git push origin :$current_branch
-}
-
 setup_configuration
-main
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
+    die "error: Current branch \"$current_branch\" is protected."
+fi
+
+git checkout $DEVELOPMENT_BRANCH
+git branch -D $current_branch
+git push origin :$current_branch
