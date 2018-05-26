@@ -26,4 +26,4 @@ function main() {
 }
 
 setup_configuration
-main $@
+main "$@"

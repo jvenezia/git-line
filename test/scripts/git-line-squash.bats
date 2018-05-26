@@ -7,7 +7,7 @@ source 'test/test_helpers/test_helper.bash'
 setup() {
     setup_tests
     create_git_repo
-    cd git_repo
+    cd git_repo || exit
 }
 
 teardown() {

@@ -9,7 +9,7 @@ function setup_tests {
 
     rm -fr test/tmp
     mkdir test/tmp
-    cd test/tmp
+    cd test/tmp || exit
 }
 
 function clean_tests {
@@ -30,7 +30,7 @@ function create_git_repo {
     git init --bare remote_git_repo.git
 
     mkdir git_repo
-    cd git_repo
+    cd git_repo || exit
 
     git init
     git remote add origin ../remote_git_repo.git

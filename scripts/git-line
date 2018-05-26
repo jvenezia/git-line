@@ -16,4 +16,4 @@ function main() {
     source "git-line-$COMMAND"
 }
 
-main $@
+main "$@"
