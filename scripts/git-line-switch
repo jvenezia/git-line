@@ -17,20 +17,20 @@ function main() {
     if [[ -z $PARTIAL_BRANCH_NAME ]]; then
         i=1
         for branch in "${branches_array[@]}"; do
-            STYLE=$(tput setaf 2)
-            PROTECTED_BRANCH_STYLE=$(tput setaf 3)
-            BOLD_STYLE=$(tput bold)
-            RESET_STYLE=$(tput sgr0)
+            style=$(tput setaf 2)
+            protected_branch_style=$(tput setaf 3)
+            bold_style=$(tput bold)
+            reset_style=$(tput sgr0)
 
             if [[ $PROTECTED_BRANCHES =~ $branch ]]; then
-                STYLE=$PROTECTED_BRANCH_STYLE
+                style=$protected_branch_style
             fi
 
             if [[ $current_branch == $branch ]]; then
-                STYLE="$STYLE$BOLD_STYLE"
+                style="$style$bold_style"
             fi
 
-            echo -e "$STYLE$BOLD_STYLE$i$RESET_STYLE$STYLE: $branch$RESET_STYLE"
+            echo -e "$style$bold_style$i$reset_style$style: $branch$reset_style"
 
             let "i++"
         done
