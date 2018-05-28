@@ -69,3 +69,10 @@ create_commits_and_branches() {
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "branch"
 }
+
+@test "'git line switch' displays usage when too many arguments are provided" {
+    run git line switch too many
+
+    assert_equal $status 1
+    assert_output --partial 'usage:'
+}

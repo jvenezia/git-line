@@ -8,6 +8,11 @@ source "git-line_utils.bash"
 
 setup_configuration
 
+if [[ -n $3 ]]; then
+    usage
+    exit 1
+fi
+
 PARTIAL_BRANCH_NAME=$2
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)

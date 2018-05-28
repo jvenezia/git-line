@@ -53,3 +53,10 @@ teardown() {
     current_commit_message=$(git log -1 --pretty=%B)
     assert_equal $current_commit_message 'commit message'
 }
+
+@test "'git line squash' displays usage when too many arguments are provided" {
+    run git line squash too many
+
+    assert_equal $status 1
+    assert_output --partial 'usage:'
+}

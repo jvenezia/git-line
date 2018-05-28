@@ -8,6 +8,11 @@ source "git-line_utils.bash"
 
 setup_configuration
 
+if [[ -n $3 ]]; then
+    usage
+    exit 1
+fi
+
 COMMIT_MESSAGE=$(echo "$2" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
