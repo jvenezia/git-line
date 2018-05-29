@@ -14,11 +14,15 @@ teardown() {
     clean_tests
 }
 
-@test "'git line start' creates a feature branch starting from updated DEVELOPMENT_BRANCH" {
+create_commit_on_origin_master() {
     touch file_on_master
     git add . && git commit -a -m "commit"
     git push
     git reset --hard HEAD^
+}
+
+@test "'git line start' creates a feature branch starting from updated DEVELOPMENT_BRANCH" {
+    create_commit_on_origin_master
 
     git checkout -b 'other_branch'
 
@@ -30,10 +34,7 @@ teardown() {
 }
 
 @test "'git line start' with uncommited change" {
-    touch file_on_master
-    git add . && git commit -a -m "commit"
-    git push
-    git reset --hard HEAD^
+    create_commit_on_origin_master
 
     git checkout -b 'other_branch'
     touch uncommited_file
@@ -53,10 +54,7 @@ teardown() {
     touch other_stashed_file
     git add . && git stash
 
-    touch file_on_master
-    git add . && git commit -a -m "commit"
-    git push
-    git reset --hard HEAD^
+    create_commit_on_origin_master
 
     git checkout -b 'other_branch'
 

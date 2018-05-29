@@ -31,21 +31,36 @@ create_commits_and_branches() {
 @test "'git line switch' checkouts selected branch" {
     create_commits_and_branches
 
-    echo 2 |git line switch
+    echo 2 | git line switch
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "master"
 
-    echo 1 |git line switch
+    echo 1 | git line switch
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "branch"
 }
 
+@test "'git line switch' with uncommited change" {
+    create_commits_and_branches
+
+    touch uncommited_file
+    git add .
+
+    echo 2 | git line switch
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "master"
+
+    created_stash=$(git --no-pager stash list)
+    assert bash -c "[[ '$created_stash' =~ 'git-line-switch-branch-' ]]"
+}
+
 @test "'git line switch' ignores non digit reply" {
     create_commits_and_branches
 
-    echo "a" |git line switch
+    echo "a" | git line switch
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "branch"

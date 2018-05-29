@@ -28,10 +28,6 @@ if [[ -n $PARTIAL_BRANCH_NAME ]]; then
             selected_branch=$branch
         fi
     done
-
-    if [[ ! -z $selected_branch ]]; then
-        git checkout $selected_branch
-    fi
 else
     i=1
     for branch in "${branches_array[@]}"; do
@@ -64,6 +60,11 @@ else
 
     if [[ $selected_branch_number =~ ^[0-9]+$ ]]; then
         selected_branch=${branches_array[$selected_branch_number]}
-        git checkout $selected_branch
     fi
+fi
+
+if [[ ! -z $selected_branch ]]; then
+    timestamp=$(date +%T)
+    git stash push -m "git-line-switch-$current_branch-$timestamp"
+    git checkout $selected_branch
 fi
