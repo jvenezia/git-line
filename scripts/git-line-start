@@ -28,4 +28,4 @@ fi
 
 git checkout -b "$BRANCH_NAME"
 
-git stash apply stash^{/$STASH_NAME}
+git stash apply "stash^{/$STASH_NAME}"
