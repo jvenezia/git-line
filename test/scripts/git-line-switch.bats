@@ -53,6 +53,9 @@ create_commits_and_branches() {
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "master"
 
+    current_changes=$(git --no-pager diff --name-only --staged)
+    assert_equal "$current_changes" ""
+
     created_stash=$(git --no-pager stash list)
     assert bash -c "[[ '$created_stash' =~ 'git-line-switch-branch-' ]]"
 }

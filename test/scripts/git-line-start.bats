@@ -47,25 +47,10 @@ create_commit_on_origin_master() {
     assert [ -e file_on_master ]
 
     current_changes=$(git --no-pager diff --name-only --staged)
-    assert_equal "$current_changes" "uncommited_file"
-}
-
-@test "'git line start' without uncommited change but existing stash" {
-    touch other_stashed_file
-    git add . && git stash
-
-    create_commit_on_origin_master
-
-    git checkout -b 'other_branch'
-
-    run git line start new-branch
-
-    current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "new-branch"
-    assert [ -e file_on_master ]
-
-    current_changes=$(git --no-pager diff --name-only --staged)
     assert_equal "$current_changes" ""
+
+    created_stash=$(git --no-pager stash list)
+    assert bash -c "[[ '$created_stash' =~ 'git-line-start-other_branch-' ]]"
 }
 
 @test "'git line start' when branch name has spaces" {
