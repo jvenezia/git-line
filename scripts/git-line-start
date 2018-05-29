@@ -15,6 +15,10 @@ if [[ -z $BRANCH_NAME ]] || [[ -n $3 ]]; then
     exit 1
 fi
 
+RANDOM_STRING=$(openssl rand -hex 6)
+STASH_NAME="git-line-start-$BRANCH_NAME-$RANDOM_STRING"
+git stash push -m $STASH_NAME
+
 git checkout $DEVELOPMENT_BRANCH
 git pull --ff-only
 
@@ -23,3 +27,5 @@ if [[ "$BRANCH_PREFIX_ENABLED" == "true" ]]; then
 fi
 
 git checkout -b "$BRANCH_NAME"
+
+git stash apply stash^{/$STASH_NAME}
