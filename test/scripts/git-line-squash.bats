@@ -1,8 +1,8 @@
 #!/usr/bin/env bats
 
-source 'test/test_helpers/bats-support/load.bash'
-source 'test/test_helpers/bats-assert/load.bash'
-source 'test/test_helpers/test_helper.bash'
+source 'test/test_helper/bats-support/load.bash'
+source 'test/test_helper/bats-assert/load.bash'
+source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
@@ -31,7 +31,7 @@ teardown() {
     run git line squash
 
     current_commit_message=$(git log -1 --pretty=%B)
-    assert_equal $current_commit_message 'feature branch branch branch'
+    assert_equal "\"$current_commit_message\"" "\"feature branch branch branch\""
 }
 
 @test "'git line squash' using a commit message" {
@@ -51,7 +51,7 @@ teardown() {
     run git line squash "commit message"
 
     current_commit_message=$(git log -1 --pretty=%B)
-    assert_equal $current_commit_message 'commit message'
+    assert_equal "\"$current_commit_message\"" "\"commit message\""
 }
 
 @test "'git line squash' displays usage when too many arguments are provided" {

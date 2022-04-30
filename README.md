@@ -100,12 +100,12 @@ Remove all remote branches removed from origin and all local branches which remo
 
 ## Tests
 
-Install [bats](https://github.com/sstephenson/bats/wiki/Install-Bats-Using-a-Package).
+Install [bats](https://github.com/bats-core/bats-core/) following this documentation: https://bats-core.readthedocs.io/en/stable/tutorial.html#quick-installation
 
 Run tests:
 
 ```bash
-bats test/scripts
+./test/bats/bin/bats test/scripts
 ```
 
 ## License
