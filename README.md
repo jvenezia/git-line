@@ -10,6 +10,8 @@ Install Git Line scripts:
 curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bash | bash /dev/stdin install
 ```
 
+By default, scripts are installed in `$HOME/.local/bin`. Make sure this directory is in your `$PATH`.
+
 When using the commands for the first time, an interactive prompt will show to configure the current git repository.
 
 To configure your current git repository manually:

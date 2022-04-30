@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-INSTALL_PATH="/usr/local/bin"
+INSTALL_PATH="$HOME/.local/bin"
 REPO_NAME="git-line"
 REPO_URL="git@github.com:jvenezia/$REPO_NAME.git"
 
