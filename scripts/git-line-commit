@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+USAGE=""
+LONG_USAGE="Commit all changes with a commit message. Creates an additional empty commit if its the first commit on the branch. This is useful to force Github to use the PR title when using 'Squash and merge'."
+
+source "$(git --exec-path)/git-sh-setup"
+source "git-line_utils.bash"
+
+setup_configuration
+
+COMMIT_MESSAGE=$2
+
+git add . && git commit -am "$COMMIT_MESSAGE"
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+current_branch_commit_count=$(git rev-list --count HEAD "$current_branch")
+
+if [[ $current_branch_commit_count == "2" ]]; then
+  git commit --allow-empty -m "Empty commit to force Github 'Squash and merge' to use PR title as commit message."
+fi

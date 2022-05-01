@@ -40,6 +40,15 @@ usage: git line start <branch_name>
 Creates a feature branch starting from DEVELOPMENT_BRANCH.
 ```
 
+#### Commit
+
+```
+usage: git line commit
+
+Commit all changes with a commit message.
+Creates an additional empty commit if its the first commit on the branch. This is useful to force Github to use the PR title when using "Squash and merge".
+```
+
 #### Push
 
 ```
@@ -98,7 +107,8 @@ Remove all remote branches removed from origin and all local branches which remo
 
 ## Tests
 
-Install [bats](https://github.com/bats-core/bats-core/) following this documentation: https://bats-core.readthedocs.io/en/stable/tutorial.html#quick-installation
+Install [bats](https://github.com/bats-core/bats-core/) following this
+documentation: https://bats-core.readthedocs.io/en/stable/tutorial.html#quick-installation
 
 Run tests:
 
