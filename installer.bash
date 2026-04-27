@@ -128,6 +128,28 @@ install_scripts() {
     done
 }
 
+resolve_git_line_version() {
+    local version
+
+    if version=$(git -C "$repo_path" describe --tags --always --dirty 2>/dev/null); then
+        printf '%s\n' "$version"
+        return
+    fi
+
+    printf 'unknown\n'
+}
+
+install_version_file() {
+    local target_file
+    local version
+
+    target_file="$INSTALL_PATH/.git-line-version"
+    version=$(resolve_git_line_version)
+
+    printf '%s\n' "$version" >"$target_file"
+    chmod 0644 "$target_file"
+}
+
 uninstall_scripts() {
     local file
     local target_file
@@ -143,6 +165,14 @@ uninstall_scripts() {
             echo "Not installed: $target_file"
         fi
     done
+
+    target_file="$INSTALL_PATH/.git-line-version"
+
+    if [[ -e "$target_file" ]]; then
+        rm -v -- "$target_file"
+    else
+        echo "Not installed: $target_file"
+    fi
 }
 
 main() {
@@ -156,6 +186,7 @@ main() {
     case "$command" in
         install)
             install_scripts
+            install_version_file
             ;;
         uninstall)
             uninstall_scripts

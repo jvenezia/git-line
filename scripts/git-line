@@ -1,18 +1,93 @@
 #!/usr/bin/env bash
 
-USAGE="<command>"
-LONG_USAGE=""
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-source "$(git --exec-path)/git-sh-setup"
+source "$SCRIPT_DIR/git-line_utils.bash"
 
-COMMAND=$1
+function git_line_version() {
+    local version
+    local version_file
 
-if [[ -z $COMMAND ]]; then
-    source "git-line_utils.bash"
+    version_file="$SCRIPT_DIR/.git-line-version"
 
-    git_line_show_insights
-    usage
+    if [[ -r $version_file ]]; then
+        IFS= read -r version <"$version_file"
+
+        if [[ -n $version ]]; then
+            printf '%s\n' "$version"
+            return
+        fi
+    fi
+
+    if [[ -f "$SCRIPT_DIR/../scripts/git-line" ]] \
+        && version=$(git -C "$SCRIPT_DIR/.." describe --tags --always --dirty 2>/dev/null); then
+        printf '%s\n' "$version"
+        return
+    fi
+
+    printf 'unknown\n'
+}
+
+function git_line_show_help() {
+    cat <<EOF
+git-line $(git_line_version)
+
+usage: git line <command>
+       git line -h
+       git line help
+       git line --version
+
+Commands:
+  start <branch_name> [--from <base_branch>]
+      Create a feature branch from a base branch.
+  commit
+      Commit all changes and add the first-branch empty commit when needed.
+  push
+      Push the current branch and set an upstream if needed.
+  switch [<partial_branch_name>]
+      Switch to a recent or matching local branch.
+  edit
+      Rebase interactively with autosquash from the branch ancestor.
+  update
+      Update the current branch base and rebase onto it.
+  squash [<commit_message>]
+      Squash current branch commits into one commit.
+  remove
+      Remove the current branch locally and from origin.
+  nuke
+      Remove local branches whose remote branch is gone.
+  help
+      Show this help.
+  version
+      Show the git-line version.
+EOF
+}
+
+function git_line_show_version() {
+    printf 'git-line %s\n' "$(git_line_version)"
+}
+
+COMMAND=${1:-}
+
+case "$COMMAND" in
+    "")
+        git_line_show_insights
+        git_line_show_help
+        exit 1
+        ;;
+    -h | --help | help)
+        git_line_show_help
+        exit 0
+        ;;
+    --version | version)
+        git_line_show_version
+        exit 0
+        ;;
+esac
+
+if [[ ! -x "$SCRIPT_DIR/git-line-$COMMAND" ]]; then
+    git_line_show_help >&2
     exit 1
 fi
 
-source "git-line-$COMMAND"
+exec "$SCRIPT_DIR/git-line-$COMMAND" "$@"

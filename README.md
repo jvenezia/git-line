@@ -43,9 +43,11 @@ curl -s https://raw.githubusercontent.com/jvenezia/git-line/HEAD/installer.bash 
 ```
 usage: git line <command>
 
-Shows usage and read-only insights for the current branch.
+Shows basic help, the current git-line version, and read-only insights for the current branch.
 When the current branch was created from another branch and that base branch has new commits,
 Git Line recommends `git line update`.
+Use `git line help` or `git line -h` for the same basic help, and `git line --version` for only the version.
+Git reserves `git line --help` for manual pages, so inline help uses `git line help` instead.
 ```
 
 #### Start

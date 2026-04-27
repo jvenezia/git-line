@@ -36,6 +36,8 @@ script_files=(
     for file in "${script_files[@]}"; do
         assert [ -x "$install_path/$file" ]
     done
+
+    assert [ -r "$install_path/.git-line-version" ]
 }
 
 @test "'installer' reports replaced files" {
@@ -58,6 +60,8 @@ script_files=(
     for file in "${script_files[@]}"; do
         assert [ ! -e "$install_path/$file" ]
     done
+
+    assert [ ! -e "$install_path/.git-line-version" ]
 }
 
 @test "'installer' displays usage for invalid commands" {
