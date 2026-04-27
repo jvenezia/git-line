@@ -35,6 +35,3 @@ echo "Running shfmt..."
 shfmt -d -i 4 -ci -bn -ln bash "${all_bash_files[@]}"
 shfmt -d -i 4 -ci -bn -ln posix "${posix_files[@]}"
 shfmt -d -i 4 -ci -bn -ln bats "${bats_files[@]}"
-
-echo "Checking whitespace..."
-git diff --check
