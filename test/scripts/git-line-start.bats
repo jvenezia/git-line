@@ -28,8 +28,20 @@ create_commit_on_origin_master() {
     run git line start new-branch
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "new-branch"
+    assert_equal "$current_branch" "from-master/new-branch"
     assert [ -e file_on_master ]
+}
+
+@test "'git line start' creates a stacked branch from another branch" {
+    git checkout -b 'other_branch'
+    touch file_on_other_branch
+    git add . && git commit -a -m "commit on other branch"
+
+    run git line start new-branch --from other_branch
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "from-other_branch/new-branch"
+    assert [ -e file_on_other_branch ]
 }
 
 @test "'git line start' with uncommited change" {
@@ -42,7 +54,7 @@ create_commit_on_origin_master() {
     run git line start new-branch
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "new-branch"
+    assert_equal "$current_branch" "from-master/new-branch"
     assert [ -e file_on_master ]
 
     current_changes=$(git --no-pager diff --name-only --staged)
@@ -59,7 +71,7 @@ create_commit_on_origin_master() {
     run git line start " new branch "
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "prefix/new-branch"
+    assert_equal "$current_branch" "prefix/from-master/new-branch"
 }
 
 @test "'git line start' with branch prefix" {
@@ -69,7 +81,28 @@ create_commit_on_origin_master() {
     run git line start new-branch
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "prefix/new-branch"
+    assert_equal "$current_branch" "prefix/from-master/new-branch"
+}
+
+@test "'git line start' from another branch with branch prefix" {
+    git config git-line.branch-prefix-enabled 'true'
+    git config git-line.branch-prefix 'prefix'
+
+    git checkout -b 'other_branch'
+
+    run git line start new-branch --from other_branch
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "prefix/from-other_branch/new-branch"
+}
+
+@test "'git line start' from a base branch containing a slash" {
+    git checkout -b 'feature/base'
+
+    run git line start new-branch --from feature/base
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "from-feature-base/new-branch"
 }
 
 @test "'git line start' displays usage when no branch name is provided" {
@@ -81,6 +114,13 @@ create_commit_on_origin_master() {
 
 @test "'git line start' displays usage when too many arguments are provided" {
     run git line start too many
+
+    assert_equal $status 1
+    assert_output --partial 'usage:'
+}
+
+@test "'git line start' displays usage when --from is provided before the branch name" {
+    run git line start --from other_branch new-branch
 
     assert_equal $status 1
     assert_output --partial 'usage:'

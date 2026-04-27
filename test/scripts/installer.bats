@@ -5,7 +5,7 @@ source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
-    install_path="$ROOT/test/tmp/install-bin"
+    install_path="$TEST_TMP_DIR/install-bin"
 }
 
 teardown() {

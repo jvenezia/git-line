@@ -1,21 +1,26 @@
 #!/usr/bin/env bash
 
 function setup_tests {
+    local test_name
+
     ROOT=$PWD
+    test_name=$(basename "${BATS_TEST_FILENAME:-manual}" .bats)
+    TEST_TMP_DIR="${TEST_TMPDIR:-/tmp/git-line-tests}/$test_name-${BATS_TEST_NUMBER:-0}"
 
     ORIGINAL_PATH=$PATH
     export PATH="$PATH:$ROOT/scripts"
     chmod +x $ROOT/scripts/git-line
 
-    rm -fr test/tmp
-    mkdir test/tmp
-    cd test/tmp || exit
+    rm -fr "$TEST_TMP_DIR"
+    mkdir -p "$TEST_TMP_DIR"
+    cd "$TEST_TMP_DIR" || exit
 }
 
 function clean_tests {
     export PATH=$ORIGINAL_PATH
 
-    rm -fr $ROOT/test/tmp
+    cd "$ROOT" || exit
+    rm -fr "$TEST_TMP_DIR"
 }
 
 function create_git_repo {

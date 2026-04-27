@@ -1,16 +1,50 @@
 #!/usr/bin/env bash
 
-USAGE="<branch_name>"
-LONG_USAGE="Creates a branch starting from DEVELOPMENT_BRANCH."
+USAGE="<branch_name> [--from <base_branch>]"
+LONG_USAGE="Creates a branch starting from <base_branch>, or DEVELOPMENT_BRANCH when omitted. Generated branch names include from-<base_branch>."
 
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
 
 setup_configuration
 
-BRANCH_NAME=$(echo "$2" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | tr \  -)
+BASE_BRANCH=$DEVELOPMENT_BRANCH
+base_branch_was_provided=false
 
-if [[ -z $BRANCH_NAME ]] || [[ -n $3 ]]; then
+if [[ $# -gt 0 ]]; then
+    shift
+fi
+
+BRANCH_NAME=${1:-}
+
+if [[ $# -gt 0 ]]; then
+    shift
+fi
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --from)
+            if [[ $# -lt 2 ]] || [[ "$base_branch_was_provided" == "true" ]]; then
+                usage
+                exit 1
+            fi
+
+            BASE_BRANCH=$2
+            base_branch_was_provided=true
+            shift 2
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+BASE_BRANCH=$(echo "$BASE_BRANCH" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+BASE_BRANCH_NAME=$(echo "$BASE_BRANCH" | tr ' /' '--')
+BRANCH_NAME=$(echo "$BRANCH_NAME" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | tr \  -)
+
+if [[ -z $BASE_BRANCH ]] || [[ -z $BRANCH_NAME ]] || [[ $BRANCH_NAME == -* ]]; then
     usage
     exit 1
 fi
@@ -20,8 +54,13 @@ current_branch=$(git rev-parse --abbrev-ref HEAD)
 timestamp=$(date +%T)
 git stash push -m "git-line-start-$current_branch-$timestamp"
 
-git checkout $DEVELOPMENT_BRANCH
-git pull --ff-only
+git checkout "$BASE_BRANCH"
+
+if git rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1; then
+    git pull --ff-only
+fi
+
+BRANCH_NAME="from-$BASE_BRANCH_NAME/$BRANCH_NAME"
 
 if [[ "$BRANCH_PREFIX_ENABLED" == "true" ]]; then
     BRANCH_NAME="$BRANCH_PREFIX/$BRANCH_NAME"

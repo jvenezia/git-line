@@ -41,9 +41,12 @@ curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bas
 #### Start
 
 ```
-usage: git line start <branch_name>
+usage: git line start <branch_name> [--from <base_branch>]
 
-Creates a feature branch starting from DEVELOPMENT_BRANCH.
+Creates a feature branch starting from <base_branch>, or DEVELOPMENT_BRANCH when omitted.
+The generated branch name includes the base branch: `from-<base_branch>/<branch_name>`, or
+`<prefix>/from-<base_branch>/<branch_name>` when branch prefixes are enabled.
+Spaces and slashes in generated branch name components are converted to hyphens.
 ```
 
 #### Commit
