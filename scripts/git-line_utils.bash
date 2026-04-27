@@ -23,10 +23,10 @@ function setup_configuration() {
 
     if [[ -z $PROTECTED_BRANCHES ]]; then
         echo "Protected branches are not set for the current repository."
-        read -p "Please enter the protected branches separated with a space (leave blank to use 'master develop'): " -r
+        read -p "Please enter the protected branches separated with a space (leave blank to use 'main master develop'): " -r
 
         if [[ -z $REPLY ]]; then
-            PROTECTED_BRANCHES="master develop"
+            PROTECTED_BRANCHES="main master develop"
         else
             PROTECTED_BRANCHES=$REPLY
         fi

@@ -5,7 +5,7 @@
 Install Git Line scripts:
 
 ```bash
-curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bash | bash /dev/stdin install
+curl -s https://raw.githubusercontent.com/jvenezia/git-line/HEAD/installer.bash | bash /dev/stdin install
 ```
 
 By default, scripts are installed in `$HOME/.local/bin`. Make sure this directory is in your `$PATH`.
@@ -13,7 +13,7 @@ By default, scripts are installed in `$HOME/.local/bin`. Make sure this director
 To install to another directory:
 
 ```bash
-curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bash | INSTALL_PATH="$HOME/bin" bash /dev/stdin install
+curl -s https://raw.githubusercontent.com/jvenezia/git-line/HEAD/installer.bash | INSTALL_PATH="$HOME/bin" bash /dev/stdin install
 ```
 
 When using the commands for the first time, an interactive prompt will show to configure the current git repository.
@@ -22,7 +22,7 @@ To configure your current git repository manually:
 
 ```bash
 git config git-line.development-branch 'develop'
-git config git-line.protected-branches 'master develop'
+git config git-line.protected-branches 'main master develop'
 
 git config git-line.branch-prefix-enabled 'true'
 git config git-line.branch-prefix 'feature'
@@ -33,7 +33,7 @@ You can optionally add aliases in file `.aliases`.
 To uninstall:
 
 ```bash
-curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bash | bash /dev/stdin uninstall
+curl -s https://raw.githubusercontent.com/jvenezia/git-line/HEAD/installer.bash | bash /dev/stdin uninstall
 ```
 
 ## Commands

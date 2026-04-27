@@ -24,6 +24,10 @@ function clean_tests {
 }
 
 function create_git_repo {
+    local default_branch
+
+    default_branch=${1:-master}
+
     if [[ -z $(git config --global user.email) ]]; then
         git config --global user.email "test@test.com"
     fi
@@ -32,20 +36,20 @@ function create_git_repo {
         git config --global user.name "Test"
     fi
 
-    git init --bare --initial-branch=master remote_git_repo.git
+    git init --bare --initial-branch="$default_branch" remote_git_repo.git
 
     mkdir git_repo
     cd git_repo || exit
 
-    git init --initial-branch=master
+    git init --initial-branch="$default_branch"
     git remote add origin ../remote_git_repo.git
 
     touch "file"
     git add . && git commit -a -m "init"
-    git push --set-upstream origin master
+    git push --set-upstream origin "$default_branch"
 
-    git config git-line.development-branch 'master'
-    git config git-line.protected-branches 'master'
+    git config git-line.development-branch "$default_branch"
+    git config git-line.protected-branches "$default_branch"
     git config git-line.branch-prefix-enabled 'false'
 
     cd ..
