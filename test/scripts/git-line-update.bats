@@ -46,3 +46,68 @@ teardown() {
     previous_commit=$(git log HEAD~1 -1 --oneline)
     assert_equal "\"${previous_commit}\"" "\"${master_commit}\""
 }
+
+@test "'git line update' updates a stacked branch base from origin, then rebase current branch onto it" {
+    git checkout -b other_branch
+    touch file_on_other_branch
+    git add . && git commit -a -m "commit on other branch"
+    git push --set-upstream origin other_branch
+
+    git line start new-branch --from other_branch
+    touch file_on_new_branch
+    git add . && git commit -a -m "commit on new branch"
+
+    git checkout other_branch
+    touch updated_file_on_other_branch
+    git add . && git commit -a -m "update other branch"
+    git push
+    git reset --hard HEAD^
+
+    git checkout from-other_branch/new-branch
+
+    run git line update
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "from-other_branch/new-branch"
+
+    other_branch_commit=$(git log other_branch -1 --oneline)
+    origin_other_branch_commit=$(git log origin/other_branch -1 --oneline)
+    assert_equal "\"${other_branch_commit}\"" "\"${origin_other_branch_commit}\""
+
+    previous_commit=$(git log HEAD~1 -1 --oneline)
+    assert_equal "\"${previous_commit}\"" "\"${other_branch_commit}\""
+}
+
+@test "'git line update' updates a stacked branch base from its configured upstream" {
+    git init --bare --initial-branch=master ../upstream_git_repo.git
+    git remote add upstream ../upstream_git_repo.git
+
+    git checkout -b other_branch
+    touch file_on_other_branch
+    git add . && git commit -a -m "commit on other branch"
+    git push --set-upstream upstream other_branch
+
+    git line start new-branch --from other_branch
+    touch file_on_new_branch
+    git add . && git commit -a -m "commit on new branch"
+
+    git checkout other_branch
+    touch updated_file_on_other_branch
+    git add . && git commit -a -m "update other branch"
+    git push upstream other_branch
+    git reset --hard HEAD^
+
+    git checkout from-other_branch/new-branch
+
+    run git line update
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "from-other_branch/new-branch"
+
+    other_branch_commit=$(git log other_branch -1 --oneline)
+    upstream_other_branch_commit=$(git log upstream/other_branch -1 --oneline)
+    assert_equal "\"${other_branch_commit}\"" "\"${upstream_other_branch_commit}\""
+
+    previous_commit=$(git log HEAD~1 -1 --oneline)
+    assert_equal "\"${previous_commit}\"" "\"${other_branch_commit}\""
+}

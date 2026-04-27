@@ -38,6 +38,16 @@ curl -s https://raw.githubusercontent.com/jvenezia/git-line/HEAD/installer.bash 
 
 ## Commands
 
+#### Line
+
+```
+usage: git line <command>
+
+Shows usage and read-only insights for the current branch.
+When the current branch was created from another branch and that base branch has new commits,
+Git Line recommends `git line update`.
+```
+
 #### Start
 
 ```
@@ -87,7 +97,9 @@ Interactive rebase with autosquash to current branch's oldest ancestor from DEVE
 ```
 usage: git line update 
 
-Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it.
+Updates the current branch's base from its configured upstream, then rebases current branch onto it.
+For branches created by `git line start`, the base comes from the generated `from-<base_branch>` branch name.
+Branches without a generated base use DEVELOPMENT_BRANCH.
 ```
 
 #### Squash

@@ -8,6 +8,9 @@ source "$(git --exec-path)/git-sh-setup"
 COMMAND=$1
 
 if [[ -z $COMMAND ]]; then
+    source "git-line_utils.bash"
+
+    git_line_show_insights
     usage
     exit 1
 fi

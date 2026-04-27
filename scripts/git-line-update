@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE=""
-LONG_USAGE="Updates DEVELOPMENT_BRANCH from origin, then rebase current branch onto it."
+LONG_USAGE="Updates the current branch's base from its configured upstream, then rebases current branch onto it."
 
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
@@ -9,10 +9,15 @@ source "git-line_utils.bash"
 setup_configuration
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
+base_branch=$(git_line_current_branch_base "$current_branch" || true)
 
 if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
     die "error: Current branch \"$current_branch\" is protected."
 fi
 
-git fetch origin $DEVELOPMENT_BRANCH:$DEVELOPMENT_BRANCH
-git rebase $DEVELOPMENT_BRANCH
+if [[ -z $base_branch ]]; then
+    base_branch=$DEVELOPMENT_BRANCH
+fi
+
+git_line_fetch_branch_from_upstream_if_available "$base_branch"
+git rebase "$base_branch"

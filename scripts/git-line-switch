@@ -31,10 +31,10 @@ if [[ -n $PARTIAL_BRANCH_NAME ]]; then
 else
     i=1
     for branch in "${branches_array[@]}"; do
-        style=$(tput setaf 2)
-        protected_branch_style=$(tput setaf 3)
-        bold_style=$(tput bold)
-        reset_style=$(tput sgr0)
+        style=$(git_line_success_style)
+        protected_branch_style=$(git_line_warning_style)
+        bold_style=$(git_line_bold_style)
+        reset_style=$(git_line_reset_style)
 
         if [[ $PROTECTED_BRANCHES =~ $branch ]]; then
             style=$protected_branch_style
@@ -44,7 +44,7 @@ else
             style="$style$bold_style"
         fi
 
-        echo -e "$style$bold_style$i$reset_style$style: $branch$reset_style"
+        printf '%s%s%s%s%s: %s%s\n' "$style" "$bold_style" "$i" "$reset_style" "$style" "$branch" "$reset_style"
 
         let "i++"
     done
