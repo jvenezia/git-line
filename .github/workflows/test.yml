@@ -18,5 +18,8 @@ jobs:
       - name: Build test image
         run: ./docker-build
 
+      - name: Run checks
+        run: ./docker-run check
+
       - name: Run tests
         run: ./docker-run test

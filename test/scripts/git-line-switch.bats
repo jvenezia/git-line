@@ -5,7 +5,7 @@ source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
-    create_git_repo
+    create_git_repo master
     cd git_repo || exit
 }
 
@@ -90,6 +90,6 @@ create_commits_and_branches() {
 @test "'git line switch' displays usage when too many arguments are provided" {
     run git line switch too many
 
-    assert_equal $status 1
+    assert_equal "$status" 1
     assert_output --partial 'usage:'
 }

@@ -5,7 +5,7 @@ source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
-    create_git_repo
+    create_git_repo master
     cd git_repo || exit
 }
 
@@ -108,20 +108,20 @@ create_commit_on_origin_master() {
 @test "'git line start' displays usage when no branch name is provided" {
     run git line start
 
-    assert_equal $status 1
+    assert_equal "$status" 1
     assert_output --partial 'usage:'
 }
 
 @test "'git line start' displays usage when too many arguments are provided" {
     run git line start too many
 
-    assert_equal $status 1
+    assert_equal "$status" 1
     assert_output --partial 'usage:'
 }
 
 @test "'git line start' displays usage when --from is provided before the branch name" {
     run git line start --from other_branch new-branch
 
-    assert_equal $status 1
+    assert_equal "$status" 1
     assert_output --partial 'usage:'
 }

@@ -10,12 +10,17 @@ setup_configuration
 
 git fetch --all --prune
 
-branches_with_gone_remote=$(git branch -vv |cut -c 3- |awk '$4 ~/gone\]/ { print $1}')
+mapfile -t branches_with_gone_remote < <(git branch -vv | cut -c 3- | awk '$4 ~/gone\]/ { print $1}')
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
-if [[ $branches_with_gone_remote =~ $current_branch ]]; then
-    git checkout $DEVELOPMENT_BRANCH
-fi
+for branch in "${branches_with_gone_remote[@]}"; do
+    if [[ $branch == "$current_branch" ]]; then
+        git checkout "$DEVELOPMENT_BRANCH"
+        break
+    fi
+done
 
-git branch -D $branches_with_gone_remote
+if [[ ${#branches_with_gone_remote[@]} -gt 0 ]]; then
+    git branch -D "${branches_with_gone_remote[@]}"
+fi

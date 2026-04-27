@@ -40,7 +40,7 @@ script_files=(
 
 @test "'installer' reports replaced files" {
     mkdir -p "$install_path"
-    echo "local edit" > "$install_path/git-line"
+    echo "local edit" >"$install_path/git-line"
 
     run env INSTALL_PATH="$install_path" bash "$ROOT/installer.bash" install
 

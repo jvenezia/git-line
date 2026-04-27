@@ -5,7 +5,7 @@ source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
-    create_git_repo
+    create_git_repo master
     cd git_repo || exit
 }
 

@@ -6,6 +6,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG BATS_VERSION=1.13.0
 ARG BATS_SUPPORT_VERSION=0.3.0
 ARG BATS_ASSERT_VERSION=2.2.4
+ARG SHELLCHECK_VERSION=0.9.0-1
+ARG SHFMT_VERSION=3.6.0-1+b2
 
 ENV BATS_LIB_PATH=/usr/local/lib/bats
 
@@ -15,6 +17,8 @@ RUN apt-get update \
     ca-certificates \
     git \
     parallel \
+    shellcheck="${SHELLCHECK_VERSION}" \
+    shfmt="${SHFMT_VERSION}" \
   && rm -rf /var/lib/apt/lists/*
 
 RUN git -c advice.detachedHead=false clone --depth 1 --branch "v${BATS_VERSION}" https://github.com/bats-core/bats-core.git /tmp/bats-core \

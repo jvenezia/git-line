@@ -5,7 +5,7 @@ source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
-    create_git_repo
+    create_git_repo master
     cd git_repo || exit
 }
 
@@ -35,7 +35,7 @@ teardown() {
     # Then
     # Current branch should be the feature branch...
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal $current_branch "feature"
+    assert_equal "$current_branch" "feature"
 
     # Local master branch should be updated to the origin master branch...
     master_commit=$(git log master -1 --oneline)

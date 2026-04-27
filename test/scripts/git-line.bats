@@ -5,7 +5,7 @@ source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
-    create_git_repo
+    create_git_repo master
     cd git_repo || exit
 }
 
@@ -16,7 +16,7 @@ teardown() {
 @test "'git line' displays usage when no command is provided" {
     run git line
 
-    assert_equal $status 1
+    assert_equal "$status" 1
     assert_output --partial 'usage:'
 }
 
@@ -35,9 +35,9 @@ teardown() {
 
     run git line
 
-    assert_equal $status 1
+    assert_equal "$status" 1
     assert_output --partial 'Base branch "other_branch" has new commits.'
-    assert_output --partial 'Run `git line update` to rebase the current branch.'
+    assert_output --partial "Run \`git line update\` to rebase the current branch."
     assert_output --partial $'current branch.\n\nusage:'
     assert_output --partial 'usage:'
 }

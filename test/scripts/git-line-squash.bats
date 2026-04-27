@@ -5,7 +5,7 @@ source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
-    create_git_repo
+    create_git_repo master
     cd git_repo || exit
 }
 
@@ -56,6 +56,6 @@ teardown() {
 @test "'git line squash' displays usage when too many arguments are provided" {
     run git line squash too many
 
-    assert_equal $status 1
+    assert_equal "$status" 1
     assert_output --partial 'usage:'
 }

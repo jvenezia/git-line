@@ -5,36 +5,43 @@ IMAGE_NAME="${IMAGE_NAME:-git-line:dev}"
 CONTAINER_NAME="${CONTAINER_NAME:-git-line}"
 
 if ! docker image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
-  ./docker-build
+    ./docker-build
 fi
 
 COMMAND="${1:-test}"
 shift || true
 
 case "$COMMAND" in
-  test)
-    if [ "$#" -eq 0 ]; then
-      set -- test/scripts
-    fi
+    check)
+        exec docker run --rm \
+            --name "${CONTAINER_NAME}-check" \
+            -v "$(pwd):/app" \
+            "$IMAGE_NAME" \
+            ./check "$@"
+        ;;
+    test)
+        if [ "$#" -eq 0 ]; then
+            set -- test/scripts
+        fi
 
-    exec docker run --rm \
-      --name "${CONTAINER_NAME}-test" \
-      -v "$(pwd):/app" \
-      "$IMAGE_NAME" \
-      bats "$@"
-    ;;
-  shell)
-    exec docker run --rm -it \
-      --name "${CONTAINER_NAME}-shell" \
-      -v "$(pwd):/app" \
-      "$IMAGE_NAME" \
-      bash "$@"
-    ;;
-  *)
-    exec docker run --rm -it \
-      --name "${CONTAINER_NAME}-custom" \
-      -v "$(pwd):/app" \
-      "$IMAGE_NAME" \
-      "$COMMAND" "$@"
-    ;;
+        exec docker run --rm \
+            --name "${CONTAINER_NAME}-test" \
+            -v "$(pwd):/app" \
+            "$IMAGE_NAME" \
+            bats "$@"
+        ;;
+    shell)
+        exec docker run --rm -it \
+            --name "${CONTAINER_NAME}-shell" \
+            -v "$(pwd):/app" \
+            "$IMAGE_NAME" \
+            bash "$@"
+        ;;
+    *)
+        exec docker run --rm -it \
+            --name "${CONTAINER_NAME}-custom" \
+            -v "$(pwd):/app" \
+            "$IMAGE_NAME" \
+            "$COMMAND" "$@"
+        ;;
 esac

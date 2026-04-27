@@ -160,7 +160,7 @@ main() {
         uninstall)
             uninstall_scripts
             ;;
-        -h|--help|help)
+        -h | --help | help)
             usage
             ;;
         *)

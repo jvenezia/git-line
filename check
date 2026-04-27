@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+mapfile -t command_files < <(find scripts -maxdepth 1 -type f ! -name 'git-line_utils.bash' | sort)
+
+bash_files=(
+    check
+    installer.bash
+    scripts/git-line_utils.bash
+    test/test_helper/load_bats_libraries.bash
+    test/test_helper/test_helper.bash
+)
+
+all_bash_files=(
+    "${bash_files[@]}"
+    "${command_files[@]}"
+)
+
+posix_files=(
+    docker-build
+    docker-run
+)
+
+mapfile -t bats_files < <(find test/scripts -maxdepth 1 -type f -name '*.bats' | sort)
+
+echo "Running bash syntax checks..."
+bash -n "${all_bash_files[@]}"
+sh -n "${posix_files[@]}"
+
+echo "Running ShellCheck..."
+shellcheck -x -e SC1090,SC1091,SC2034 "${command_files[@]}"
+shellcheck -x -e SC1090,SC1091 "${bash_files[@]}" "${posix_files[@]}" "${bats_files[@]}"
+
+echo "Running shfmt..."
+shfmt -d -i 4 -ci -bn -ln bash "${all_bash_files[@]}"
+shfmt -d -i 4 -ci -bn -ln posix "${posix_files[@]}"
+shfmt -d -i 4 -ci -bn -ln bats "${bats_files[@]}"
+
+echo "Checking whitespace..."
+git diff --check

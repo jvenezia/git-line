@@ -16,5 +16,5 @@ current_branch=$(git rev-parse --abbrev-ref HEAD)
 current_branch_commit_count=$(git rev-list --count HEAD "$current_branch")
 
 if [[ $current_branch_commit_count == "2" ]]; then
-  git commit --allow-empty -m "Empty commit to force Github 'Squash and merge' to use PR title as commit message."
+    git commit --allow-empty -m "Empty commit to force Github 'Squash and merge' to use PR title as commit message."
 fi

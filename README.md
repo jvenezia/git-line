@@ -162,6 +162,12 @@ Run the full test suite:
 ./docker-run test
 ```
 
+Run static checks:
+
+```bash
+./docker-run check
+```
+
 Run a focused test file:
 
 ```bash
@@ -173,6 +179,8 @@ The Docker image pins the test stack in `Dockerfile`:
 - bats-core 1.13.0
 - bats-support 0.3.0
 - bats-assert 2.2.4
+- shellcheck 0.9.0-1
+- shfmt 3.6.0-1+b2
 
 ## License
 

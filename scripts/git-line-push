@@ -8,7 +8,7 @@ source "$(git --exec-path)/git-sh-setup"
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 if [[ $(git config "branch.$current_branch.merge") = '' ]]; then
-    git push --set-upstream origin $current_branch
+    git push --set-upstream origin "$current_branch"
 else
     git push
 fi

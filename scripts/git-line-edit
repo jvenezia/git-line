@@ -8,5 +8,5 @@ source "git-line_utils.bash"
 
 setup_configuration
 
-oldest_ancestor=$(diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent $DEVELOPMENT_BRANCH) <(git rev-list --first-parent HEAD) | head -1)
-git rebase --interactive --autosquash $oldest_ancestor
+oldest_ancestor=$(diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent "$DEVELOPMENT_BRANCH") <(git rev-list --first-parent HEAD) | head -1)
+git rebase --interactive --autosquash "$oldest_ancestor"

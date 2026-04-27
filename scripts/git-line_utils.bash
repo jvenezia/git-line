@@ -256,14 +256,14 @@ function git_line_fetch_branch_from_upstream_if_available() {
     local merge_ref
     local remote
 
-    if remote=$(git_line_upstream_remote_for_branch "$branch") &&
-        merge_ref=$(git_line_upstream_merge_ref_for_branch "$branch"); then
+    if remote=$(git_line_upstream_remote_for_branch "$branch") \
+        && merge_ref=$(git_line_upstream_merge_ref_for_branch "$branch"); then
         git fetch "$remote" "$merge_ref:refs/heads/$branch"
         return
     fi
 
-    if git show-ref --verify --quiet "refs/remotes/origin/$branch" ||
-        git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+    if git show-ref --verify --quiet "refs/remotes/origin/$branch" \
+        || git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
         git fetch origin "refs/heads/$branch:refs/heads/$branch"
     fi
 }

@@ -14,6 +14,6 @@ if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
     die "error: Current branch \"$current_branch\" is protected."
 fi
 
-git checkout $DEVELOPMENT_BRANCH
-git branch -D $current_branch
-git push origin :$current_branch
+git checkout "$DEVELOPMENT_BRANCH"
+git branch -D "$current_branch"
+git push origin :"$current_branch"

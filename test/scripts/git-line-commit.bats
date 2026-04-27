@@ -5,7 +5,7 @@ source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
-    create_git_repo
+    create_git_repo master
     cd git_repo || exit
 }
 
@@ -18,7 +18,7 @@ teardown() {
     git checkout -b new_branch
 
     touch other_file
-    echo "change" >> other_file
+    echo "change" >>other_file
 
     # When
     git line commit "New commit."
@@ -37,13 +37,13 @@ teardown() {
 
     touch other_file
 
-    echo "first change" >> other_file
+    echo "first change" >>other_file
     git add . && git commit -am "First commit."
 
-    echo "second change" >> other_file
+    echo "second change" >>other_file
     git add . && git commit -am "Second commit."
 
-    echo "new change" >> other_file
+    echo "new change" >>other_file
 
     # When
     git line commit "New commit."

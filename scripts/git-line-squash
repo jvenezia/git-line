@@ -21,8 +21,8 @@ if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
     die "error: Current branch \"$current_branch\" is protected."
 fi
 
-oldest_ancestor=$(diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent $DEVELOPMENT_BRANCH) <(git rev-list --first-parent HEAD) | head -1)
-git reset $oldest_ancestor
+oldest_ancestor=$(diff --old-line-format='' --new-line-format='' <(git rev-list --first-parent "$DEVELOPMENT_BRANCH") <(git rev-list --first-parent HEAD) | head -1)
+git reset "$oldest_ancestor"
 git add .
 
 if [[ -z $COMMIT_MESSAGE ]]; then

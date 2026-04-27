@@ -9,7 +9,7 @@ function setup_tests {
 
     ORIGINAL_PATH=$PATH
     export PATH="$PATH:$ROOT/scripts"
-    chmod +x $ROOT/scripts/git-line
+    chmod +x "$ROOT/scripts/git-line"
 
     rm -fr "$TEST_TMP_DIR"
     mkdir -p "$TEST_TMP_DIR"
@@ -58,6 +58,6 @@ function create_git_repo {
 function debug {
     run bash -c "echo $1; false"
     echo "==== DEBUG"
-    echo "${output}"
+    echo "${output:-}"
     echo "===="
 }

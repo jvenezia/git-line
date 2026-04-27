@@ -5,7 +5,7 @@ source 'test/test_helper/test_helper.bash'
 
 setup() {
     setup_tests
-    create_git_repo
+    create_git_repo master
     cd git_repo || exit
 }
 
@@ -34,4 +34,15 @@ teardown() {
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "master"
+}
+
+@test "'git line nuke' succeeds when no branch has a gone remote" {
+    git checkout -b branch-without-remote
+
+    run git line nuke
+
+    assert_equal "$status" 0
+
+    branches=$(git branch -a | tr '\n' ' ')
+    assert_equal "$branches" "* branch-without-remote   master   remotes/origin/master "
 }

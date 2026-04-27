@@ -17,13 +17,18 @@ After making changes:
 
    `./docker-build`
 
-3. For code or behavior changes, run the Bats test suite through Docker:
+3. For code, behavior, or test-tooling changes, run static checks through
+   Docker:
+
+   `./docker-run check`
+
+4. For code or behavior changes, run the Bats test suite through Docker:
 
    `./docker-run test`
 
    For focused debugging, use `./docker-run test path/to/file.bats`, then run the
    full suite before finishing.
-4. For documentation-only changes, tests are not required. State explicitly that
+5. For documentation-only changes, tests are not required. State explicitly that
    no executable code changed.
 
 Fix any failures before considering the task complete.
