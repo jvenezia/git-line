@@ -10,6 +10,12 @@ curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bas
 
 By default, scripts are installed in `$HOME/.local/bin`. Make sure this directory is in your `$PATH`.
 
+To install to another directory:
+
+```bash
+curl -s https://raw.githubusercontent.com/jvenezia/git-line/master/installer.bash | INSTALL_PATH="$HOME/bin" bash /dev/stdin install
+```
+
 When using the commands for the first time, an interactive prompt will show to configure the current git repository.
 
 To configure your current git repository manually:
@@ -105,7 +111,29 @@ usage: git line nuke
 Remove all remote branches removed from origin and all local branches which remote is gone. It will not remove branches which never had remotes.
 ```
 
-## Tests
+## Contributing
+
+### Install Local Version
+
+From the repository root:
+
+```bash
+./installer.bash install
+```
+
+By default, this installs the local checkout to `$HOME/.local/bin`. To install
+to another directory:
+
+```bash
+INSTALL_PATH="$HOME/bin" ./installer.bash install
+```
+
+The installer uses the current local checkout when run from this repository.
+When run from the downloaded script, it clones the repository from GitHub over
+HTTPS into a temporary directory and removes that temporary clone after
+installation.
+
+### Tests
 
 Build the Docker image:
 
