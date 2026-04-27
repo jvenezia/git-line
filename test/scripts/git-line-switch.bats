@@ -1,7 +1,6 @@
 #!/usr/bin/env bats
 
-source 'test/test_helper/bats-support/load.bash'
-source 'test/test_helper/bats-assert/load.bash'
+source 'test/test_helper/load_bats_libraries.bash'
 source 'test/test_helper/test_helper.bash'
 
 setup() {

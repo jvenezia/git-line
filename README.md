@@ -107,14 +107,29 @@ Remove all remote branches removed from origin and all local branches which remo
 
 ## Tests
 
-Install [bats](https://github.com/bats-core/bats-core/) following this
-documentation: https://bats-core.readthedocs.io/en/stable/tutorial.html#quick-installation
-
-Run tests:
+Build the Docker image:
 
 ```bash
-./test/bats/bin/bats test/scripts
+./docker-build
 ```
+
+Run the full test suite:
+
+```bash
+./docker-run test
+```
+
+Run a focused test file:
+
+```bash
+./docker-run test test/scripts/git-line-squash.bats
+```
+
+The Docker image pins the test stack in `Dockerfile`:
+
+- bats-core 1.13.0
+- bats-support 0.3.0
+- bats-assert 2.2.4
 
 ## License
 

@@ -26,9 +26,9 @@ git reset $oldest_ancestor
 git add .
 
 if [[ -z $COMMIT_MESSAGE ]]; then
-    commit_message=$(echo "$current_branch" | tr _-/ \ )
+    commit_message=$(echo "$current_branch" | tr '/_-' '   ')
 else
     commit_message=$COMMIT_MESSAGE
 fi
 
-git commit -am "$commit_message"
+git commit -m "$commit_message"

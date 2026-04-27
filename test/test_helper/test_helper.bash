@@ -27,12 +27,12 @@ function create_git_repo {
         git config --global user.name "Test"
     fi
 
-    git init --bare remote_git_repo.git
+    git init --bare --initial-branch=master remote_git_repo.git
 
     mkdir git_repo
     cd git_repo || exit
 
-    git init
+    git init --initial-branch=master
     git remote add origin ../remote_git_repo.git
 
     touch "file"

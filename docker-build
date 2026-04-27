@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+
+docker build --target dev -t git-line:dev .
