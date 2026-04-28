@@ -69,8 +69,14 @@ GIT_LINE_COLOR_GREEN=2
 GIT_LINE_COLOR_YELLOW=3
 GIT_LINE_COLOR_BLUE=4
 
+# Style helpers are usually captured with command substitution, where stdout is a pipe.
+GIT_LINE_STDOUT_IS_TERMINAL=false
+if [[ -t 1 ]]; then
+    GIT_LINE_STDOUT_IS_TERMINAL=true
+fi
+
 function git_line_terminal_supports_style() {
-    if [[ -n ${NO_COLOR:-} ]] || [[ ! -t 1 ]] || [[ -z ${TERM:-} ]]; then
+    if [[ $GIT_LINE_STDOUT_IS_TERMINAL != "true" ]] || [[ -z ${TERM:-} ]]; then
         return 1
     fi
 
