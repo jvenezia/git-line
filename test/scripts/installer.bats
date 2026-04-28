@@ -19,6 +19,7 @@ script_files=(
     git-line-nuke
     git-line-push
     git-line-remove
+    git-line-stash
     git-line-squash
     git-line-start
     git-line-switch

@@ -78,6 +78,14 @@ usage: git line push
 Push the current branch and set an upstream if needed.
 ```
 
+#### Stash
+
+```
+usage: git line stash
+
+Stash tracked and untracked changes.
+```
+
 #### Switch
 
 ```

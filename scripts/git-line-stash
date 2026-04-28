@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+USAGE=""
+LONG_USAGE="Stash tracked and untracked changes."
+
+source "$(git --exec-path)/git-sh-setup"
+
+git stash push --include-untracked

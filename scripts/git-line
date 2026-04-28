@@ -44,6 +44,8 @@ Commands:
       Commit all changes and add the first-branch empty commit when needed.
   push
       Push the current branch and set an upstream if needed.
+  stash
+      Stash tracked and untracked changes.
   switch [<partial_branch_name>]
       Switch to a recent or matching local branch.
   edit
