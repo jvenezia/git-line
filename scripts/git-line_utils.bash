@@ -142,6 +142,19 @@ function git_line_encoded_base_branch_from_branch() {
     return 1
 }
 
+function git_line_branch_name_with_base() {
+    local branch=$1
+    local base_branch=$2
+    local encoded_base_branch
+
+    if [[ ! $branch =~ ^(.*/)?from-[^/]+/(.+)$ ]]; then
+        return 1
+    fi
+
+    encoded_base_branch=$(git_line_sanitize_branch_name "$(git_line_short_branch_name "$base_branch")")
+    printf '%sfrom-%s/%s\n' "${BASH_REMATCH[1]}" "$encoded_base_branch" "${BASH_REMATCH[2]}"
+}
+
 function git_line_resolve_local_branch_from_encoded_name() {
     local encoded_branch_name=$1
     local branch
