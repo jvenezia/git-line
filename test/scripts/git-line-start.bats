@@ -44,6 +44,20 @@ create_commit_on_origin_master() {
     assert [ -e file_on_other_branch ]
 }
 
+@test "'git line start' creates a stacked branch from the current branch" {
+    git checkout -b 'other_branch'
+    touch file_on_other_branch
+    git add . && git commit -a -m "commit on other branch"
+
+    run git line start new-branch --from-here
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    base_branch=$(git config "branch.$current_branch.git-line-base-branch")
+    assert_equal "$current_branch" "from-other_branch/new-branch"
+    assert_equal "$base_branch" "other_branch"
+    assert [ -e file_on_other_branch ]
+}
+
 @test "'git line start' with uncommited change" {
     create_commit_on_origin_master
 
@@ -137,6 +151,13 @@ create_commit_on_origin_master() {
 
 @test "'git line start' displays usage when --from is provided before the branch name" {
     run git line start --from other_branch new-branch
+
+    assert_equal "$status" 1
+    assert_output --partial 'usage:'
+}
+
+@test "'git line start' displays usage when multiple base options are provided" {
+    run git line start new-branch --from other_branch --from-here
 
     assert_equal "$status" 1
     assert_output --partial 'usage:'

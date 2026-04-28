@@ -53,9 +53,10 @@ Git reserves `git line --help` for manual pages, so inline help uses `git line h
 #### Start
 
 ```
-usage: git line start <branch_name> [--from <base_branch>]
+usage: git line start <branch_name> [--from <base_branch>|--from-here]
 
-Creates a feature branch starting from <base_branch>, or DEVELOPMENT_BRANCH when omitted.
+Creates a feature branch starting from <base_branch>, the current branch with `--from-here`,
+or DEVELOPMENT_BRANCH when omitted.
 The generated branch name includes the short base branch name: `from-<short_base_branch>/<branch_name>`,
 or `<prefix>/from-<short_base_branch>/<branch_name>` when branch prefixes are enabled.
 For a base branch with slashes, the short base branch name is its final path component.

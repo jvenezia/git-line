@@ -38,7 +38,7 @@ usage: git line <command>
        git line --version
 
 Commands:
-  start <branch_name> [--from <base_branch>]
+  start <branch_name> [--from <base_branch>|--from-here]
       Create a feature branch from a base branch.
   commit
       Commit all changes and add the first-branch empty commit when needed.

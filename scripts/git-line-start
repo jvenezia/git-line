@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-USAGE="<branch_name> [--from <base_branch>]"
-LONG_USAGE="Creates a branch starting from <base_branch>, or DEVELOPMENT_BRANCH when omitted. Generated branch names include from-<short_base_branch>."
+USAGE="<branch_name> [--from <base_branch>|--from-here]"
+LONG_USAGE="Creates a branch starting from <base_branch>, the current branch with --from-here, or DEVELOPMENT_BRANCH when omitted. Generated branch names include from-<short_base_branch>."
 
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
@@ -10,6 +10,7 @@ setup_configuration
 
 BASE_BRANCH=$DEVELOPMENT_BRANCH
 base_branch_was_provided=false
+current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 if [[ $# -gt 0 ]]; then
     shift
@@ -33,6 +34,16 @@ while [[ $# -gt 0 ]]; do
             base_branch_was_provided=true
             shift 2
             ;;
+        --from-here)
+            if [[ "$base_branch_was_provided" == "true" ]]; then
+                usage
+                exit 1
+            fi
+
+            BASE_BRANCH=$current_branch
+            base_branch_was_provided=true
+            shift
+            ;;
         *)
             usage
             exit 1
@@ -48,8 +59,6 @@ if [[ -z $BASE_BRANCH ]] || [[ -z $BRANCH_NAME ]] || [[ $BRANCH_NAME == -* ]]; t
     usage
     exit 1
 fi
-
-current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 timestamp=$(date +%T)
 git stash push -m "git-line-start-$current_branch-$timestamp"
