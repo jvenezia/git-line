@@ -114,6 +114,19 @@ with the generated `from-<base_branch>` branch name used as a fallback for older
 Branches without a generated base use DEVELOPMENT_BRANCH.
 ```
 
+#### Unstack
+
+```
+usage: git line unstack [<base_branch>]
+
+Moves the current branch from its git-line base onto <base_branch>, or DEVELOPMENT_BRANCH when omitted.
+This is useful after a stacked branch's base has been merged and the current branch should be rebased
+directly onto the development branch.
+Internally this uses `git rebase --onto <base_branch> <old_base_branch>`, so only commits unique to
+the current branch are replayed. After a successful rebase, Git Line updates the branch's stored base.
+The branch is not renamed.
+```
+
 #### Squash
 
 ```

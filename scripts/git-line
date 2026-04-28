@@ -52,6 +52,8 @@ Commands:
       Rebase interactively with autosquash from the branch ancestor.
   update
       Update the current branch base and rebase onto it.
+  unstack [<base_branch>]
+      Move the current branch from its git-line base onto another base.
   squash [<commit_message>]
       Squash current branch commits into one commit.
   remove

@@ -17,6 +17,7 @@ SCRIPT_FILES=(
     git-line-squash
     git-line-start
     git-line-switch
+    git-line-unstack
     git-line-update
     git-line-commit
 )

@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+USAGE="[<base_branch>]"
+LONG_USAGE="Moves the current branch from its git-line base onto <base_branch>, or DEVELOPMENT_BRANCH when omitted."
+
+source "$(git --exec-path)/git-sh-setup"
+source "git-line_utils.bash"
+
+setup_configuration
+
+if [[ $# -gt 0 ]]; then
+    shift
+fi
+
+if [[ $# -gt 1 ]]; then
+    usage
+    exit 1
+fi
+
+target_base_branch=${1:-$DEVELOPMENT_BRANCH}
+target_base_branch=$(printf '%s\n' "$target_base_branch" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
+if [[ -z $target_base_branch ]] || [[ $target_base_branch == -* ]]; then
+    usage
+    exit 1
+fi
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+current_base_branch=$(git_line_current_branch_base "$current_branch" || true)
+
+if [[ $PROTECTED_BRANCHES =~ $current_branch ]]; then
+    die "error: Current branch \"$current_branch\" is protected."
+fi
+
+if [[ -z $current_base_branch ]]; then
+    die "error: Current branch \"$current_branch\" does not have a git-line base branch."
+fi
+
+git_line_fetch_branch_from_upstream_if_available "$target_base_branch"
+
+if ! git rev-parse --verify --quiet "$target_base_branch^{commit}" >/dev/null; then
+    die "error: Target base branch \"$target_base_branch\" does not exist."
+fi
+
+if ! git rev-parse --verify --quiet "$current_base_branch^{commit}" >/dev/null; then
+    die "error: Current base branch \"$current_base_branch\" does not exist."
+fi
+
+git rebase --onto "$target_base_branch" "$current_base_branch"
+rebase_status=$?
+
+if [[ $rebase_status -ne 0 ]]; then
+    exit "$rebase_status"
+fi
+
+git config "branch.$current_branch.git-line-base-branch" "$target_base_branch"
