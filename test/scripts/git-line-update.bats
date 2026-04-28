@@ -111,3 +111,37 @@ teardown() {
     previous_commit=$(git log HEAD~1 -1 --oneline)
     assert_equal "\"${previous_commit}\"" "\"${other_branch_commit}\""
 }
+
+@test "'git line update' updates a simplified stacked branch base" {
+    git config git-line.branch-prefix-enabled 'true'
+    git config git-line.branch-prefix 'prefix'
+
+    git checkout -b prefix/from-master/other_branch
+    touch file_on_other_branch
+    git add . && git commit -a -m "commit on other branch"
+    git push --set-upstream origin prefix/from-master/other_branch
+
+    git line start new-branch --from prefix/from-master/other_branch
+    touch file_on_new_branch
+    git add . && git commit -a -m "commit on new branch"
+
+    git checkout prefix/from-master/other_branch
+    touch updated_file_on_other_branch
+    git add . && git commit -a -m "update other branch"
+    git push
+    git reset --hard HEAD^
+
+    git checkout prefix/from-other_branch/new-branch
+
+    run git line update
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "prefix/from-other_branch/new-branch"
+
+    other_branch_commit=$(git log prefix/from-master/other_branch -1 --oneline)
+    origin_other_branch_commit=$(git log origin/prefix/from-master/other_branch -1 --oneline)
+    assert_equal "\"${other_branch_commit}\"" "\"${origin_other_branch_commit}\""
+
+    previous_commit=$(git log HEAD~1 -1 --oneline)
+    assert_equal "\"${previous_commit}\"" "\"${other_branch_commit}\""
+}

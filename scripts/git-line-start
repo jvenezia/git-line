@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE="<branch_name> [--from <base_branch>]"
-LONG_USAGE="Creates a branch starting from <base_branch>, or DEVELOPMENT_BRANCH when omitted. Generated branch names include from-<base_branch>."
+LONG_USAGE="Creates a branch starting from <base_branch>, or DEVELOPMENT_BRANCH when omitted. Generated branch names include from-<short_base_branch>."
 
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
@@ -41,7 +41,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 BASE_BRANCH=$(echo "$BASE_BRANCH" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-BASE_BRANCH_NAME=$(echo "$BASE_BRANCH" | tr ' /' '--')
+BASE_BRANCH_NAME=$(git_line_sanitize_branch_name "$(git_line_short_branch_name "$BASE_BRANCH")")
 BRANCH_NAME=$(echo "$BRANCH_NAME" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | tr \  -)
 
 if [[ -z $BASE_BRANCH ]] || [[ -z $BRANCH_NAME ]] || [[ $BRANCH_NAME == -* ]]; then
@@ -67,3 +67,4 @@ if [[ "$BRANCH_PREFIX_ENABLED" == "true" ]]; then
 fi
 
 git checkout -b "$BRANCH_NAME"
+git config "branch.$BRANCH_NAME.git-line-base-branch" "$BASE_BRANCH"

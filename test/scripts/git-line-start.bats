@@ -96,13 +96,29 @@ create_commit_on_origin_master() {
     assert_equal "$current_branch" "prefix/from-other_branch/new-branch"
 }
 
+@test "'git line start' simplifies a generated base branch name" {
+    git config git-line.branch-prefix-enabled 'true'
+    git config git-line.branch-prefix 'jvenezia'
+
+    git checkout -b 'jvenezia/from-develop/sentinel-7'
+
+    run git line start sentinel-8 --from jvenezia/from-develop/sentinel-7
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    base_branch=$(git config "branch.$current_branch.git-line-base-branch")
+    assert_equal "$current_branch" "jvenezia/from-sentinel-7/sentinel-8"
+    assert_equal "$base_branch" "jvenezia/from-develop/sentinel-7"
+}
+
 @test "'git line start' from a base branch containing a slash" {
     git checkout -b 'feature/base'
 
     run git line start new-branch --from feature/base
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "from-feature-base/new-branch"
+    base_branch=$(git config "branch.$current_branch.git-line-base-branch")
+    assert_equal "$current_branch" "from-base/new-branch"
+    assert_equal "$base_branch" "feature/base"
 }
 
 @test "'git line start' displays usage when no branch name is provided" {

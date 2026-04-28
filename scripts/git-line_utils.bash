@@ -125,6 +125,12 @@ function git_line_sanitize_branch_name() {
     printf '%s\n' "$1" | tr ' /' '--'
 }
 
+function git_line_short_branch_name() {
+    local branch=$1
+
+    printf '%s\n' "${branch##*/}"
+}
+
 function git_line_encoded_base_branch_from_branch() {
     local current_branch=$1
 
@@ -160,12 +166,44 @@ function git_line_resolve_local_branch_from_encoded_name() {
     return 1
 }
 
+function git_line_resolve_local_branch_from_short_encoded_name() {
+    local encoded_branch_name=$1
+    local branch
+    local matched_branch
+    local matched_count
+
+    matched_branch=""
+    matched_count=0
+
+    while IFS= read -r branch; do
+        if [[ $(git_line_sanitize_branch_name "$(git_line_short_branch_name "$branch")") == "$encoded_branch_name" ]]; then
+            matched_branch=$branch
+            matched_count=$((matched_count + 1))
+        fi
+    done < <(git for-each-ref --format='%(refname:short)' refs/heads/ 2>/dev/null)
+
+    if [[ $matched_count -eq 1 ]]; then
+        printf '%s\n' "$matched_branch"
+        return 0
+    fi
+
+    return 1
+}
+
 function git_line_current_branch_base() {
     local current_branch=$1
+    local configured_base_branch
     local encoded_base_branch
 
+    configured_base_branch=$(git config "branch.$current_branch.git-line-base-branch" || true)
+    if [[ -n $configured_base_branch ]]; then
+        printf '%s\n' "$configured_base_branch"
+        return 0
+    fi
+
     encoded_base_branch=$(git_line_encoded_base_branch_from_branch "$current_branch") || return 1
-    git_line_resolve_local_branch_from_encoded_name "$encoded_base_branch"
+    git_line_resolve_local_branch_from_encoded_name "$encoded_base_branch" \
+        || git_line_resolve_local_branch_from_short_encoded_name "$encoded_base_branch"
 }
 
 function git_line_remote_tracking_branch_for_branch() {

@@ -56,9 +56,10 @@ Git reserves `git line --help` for manual pages, so inline help uses `git line h
 usage: git line start <branch_name> [--from <base_branch>]
 
 Creates a feature branch starting from <base_branch>, or DEVELOPMENT_BRANCH when omitted.
-The generated branch name includes the base branch: `from-<base_branch>/<branch_name>`, or
-`<prefix>/from-<base_branch>/<branch_name>` when branch prefixes are enabled.
-Spaces and slashes in generated branch name components are converted to hyphens.
+The generated branch name includes the short base branch name: `from-<short_base_branch>/<branch_name>`,
+or `<prefix>/from-<short_base_branch>/<branch_name>` when branch prefixes are enabled.
+For a base branch with slashes, the short base branch name is its final path component.
+Spaces in generated branch name components are converted to hyphens.
 ```
 
 #### Commit
@@ -108,7 +109,8 @@ Interactive rebase with autosquash to current branch's oldest ancestor from DEVE
 usage: git line update 
 
 Updates the current branch's base from its configured upstream, then rebases current branch onto it.
-For branches created by `git line start`, the base comes from the generated `from-<base_branch>` branch name.
+For branches created by `git line start`, the base comes from the branch's git-line base configuration,
+with the generated `from-<base_branch>` branch name used as a fallback for older branches.
 Branches without a generated base use DEVELOPMENT_BRANCH.
 ```
 
