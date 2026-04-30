@@ -125,8 +125,8 @@ This is useful after a stacked branch's base has been merged and the current bra
 directly onto the development branch.
 Internally this uses `git rebase --onto <base_branch> <old_base_branch>`, so only commits unique to
 the current branch are replayed. After a successful rebase, Git Line updates the branch's stored base.
-Generated branches are renamed so `from-<base_branch>` matches the new base. If a renamed branch had
-an upstream, Git Line clears it so the next `git line push` publishes the new branch name.
+The current branch name and upstream configuration are left unchanged so existing pull requests keep
+tracking the same branch.
 ```
 
 #### Squash

@@ -34,7 +34,7 @@ teardown() {
     assert_equal "$status" 0
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "from-master/new-branch"
+    assert_equal "$current_branch" "from-other_branch/new-branch"
 
     base_branch=$(git config "branch.$current_branch.git-line-base-branch")
     assert_equal "$base_branch" "master"
@@ -47,7 +47,8 @@ teardown() {
     assert_equal "$status" 1
 
     run git rev-parse --abbrev-ref --symbolic-full-name '@{u}'
-    assert [ "$status" -ne 0 ]
+    assert_equal "$status" 0
+    assert_output 'origin/from-other_branch/new-branch'
 }
 
 @test "'git line unstack' accepts an explicit base branch" {
@@ -71,7 +72,7 @@ teardown() {
     assert_equal "$status" 0
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "from-release/new-branch"
+    assert_equal "$current_branch" "from-other_branch/new-branch"
 
     base_branch=$(git config "branch.$current_branch.git-line-base-branch")
     assert_equal "$base_branch" "release"
@@ -81,7 +82,7 @@ teardown() {
     assert_equal "\"${previous_commit}\"" "\"${release_commit}\""
 }
 
-@test "'git line unstack' preserves the existing branch prefix when renaming" {
+@test "'git line unstack' preserves the existing branch name with a prefix" {
     git config git-line.branch-prefix-enabled 'true'
     git config git-line.branch-prefix 'prefix'
 
@@ -104,13 +105,13 @@ teardown() {
     assert_equal "$status" 0
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "prefix/from-master/new-branch"
+    assert_equal "$current_branch" "prefix/from-other_branch/new-branch"
 
     base_branch=$(git config "branch.$current_branch.git-line-base-branch")
     assert_equal "$base_branch" "master"
 }
 
-@test "'git line unstack' renames a branch when it already has the target base configured" {
+@test "'git line unstack' keeps the current branch name when it already has the target base configured" {
     git checkout -b other_branch
     touch file_on_other_branch
     git add . && git commit -a -m "commit on other branch"
@@ -120,6 +121,7 @@ teardown() {
     git add . && git commit -a -m "commit on new branch"
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
+    original_head=$(git rev-parse HEAD)
     git config "branch.$current_branch.git-line-base-branch" master
 
     run git line unstack
@@ -127,10 +129,13 @@ teardown() {
     assert_equal "$status" 0
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    assert_equal "$current_branch" "from-master/new-branch"
+    current_head=$(git rev-parse HEAD)
+
+    assert_equal "$current_branch" "from-other_branch/new-branch"
+    assert_equal "$current_head" "$original_head"
 }
 
-@test "'git line unstack' refuses to rebase when the renamed branch already exists" {
+@test "'git line unstack' ignores an existing branch that matches the new base name" {
     git checkout -b other_branch
     touch file_on_other_branch
     git add . && git commit -a -m "commit on other branch"
@@ -147,14 +152,13 @@ teardown() {
 
     run git line unstack
 
-    assert_equal "$status" 1
-    assert_output --partial 'already exists'
+    assert_equal "$status" 0
 
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     assert_equal "$current_branch" "from-other_branch/new-branch"
 
     current_head=$(git rev-parse HEAD)
-    assert_equal "$current_head" "$original_head"
+    assert [ "$current_head" != "$original_head" ]
 }
 
 @test "'git line unstack' displays usage when too many arguments are provided" {
