@@ -93,7 +93,8 @@ Stash tracked and untracked changes.
 ```
 usage: git line switch [<partial_branch_name>]
 
-Lists most recent branches and checkout selected one, or checkouts branch matching <partial_branch_name> if provided.
+Checks out an exact or partial local branch match, or lists recent branches for selection when no name is provided.
+Exact branch name matches are selected before partial matches.
 ```
 
 #### Edit

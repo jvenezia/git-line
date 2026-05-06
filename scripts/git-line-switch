@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USAGE="[<partial_branch_name>]"
-LONG_USAGE="Lists most recent branches and checkout selected one, or checkouts branch matching <partial_branch_name> if provided."
+LONG_USAGE="Checks out an exact or partial local branch match, or lists recent branches for selection when no name is provided."
 
 source "$(git --exec-path)/git-sh-setup"
 source "git-line_utils.bash"
@@ -22,12 +22,20 @@ IFS=' ' read -r -a branches_array <<<"$branches"
 
 if [[ -n $PARTIAL_BRANCH_NAME ]]; then
     selected_branch=''
-    i=1
     for branch in "${branches_array[@]}"; do
-        if [[ $branch =~ $PARTIAL_BRANCH_NAME ]]; then
+        if [[ $branch == "$PARTIAL_BRANCH_NAME" ]]; then
             selected_branch=$branch
+            break
         fi
     done
+
+    if [[ -z $selected_branch ]]; then
+        for branch in "${branches_array[@]}"; do
+            if [[ $branch =~ $PARTIAL_BRANCH_NAME ]]; then
+                selected_branch=$branch
+            fi
+        done
+    fi
 else
     i=1
     for branch in "${branches_array[@]}"; do

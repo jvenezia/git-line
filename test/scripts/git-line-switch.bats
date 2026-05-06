@@ -87,6 +87,29 @@ create_commits_and_branches() {
     assert_equal "$current_branch" "branch"
 }
 
+@test "'git line switch' prioritizes exact branch name matches" {
+    touch old_partial_file
+    git add .
+    GIT_COMMITTER_DATE="Wed Feb 13 14:00 2016 +0100" git commit -am 'old partial file commit'
+
+    git checkout -b 'partial-branch'
+    touch partial_branch_file
+    git add .
+    GIT_COMMITTER_DATE="Wed Feb 13 14:00 2017 +0100" git commit -am 'partial branch file commit'
+
+    git checkout master
+    git checkout -b 'branch'
+    touch exact_branch_file
+    git add .
+    GIT_COMMITTER_DATE="Wed Feb 13 14:00 2018 +0100" git commit -am 'exact branch file commit'
+
+    git checkout master
+    git line switch branch
+
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    assert_equal "$current_branch" "branch"
+}
+
 @test "'git line switch' displays usage when too many arguments are provided" {
     run git line switch too many
 

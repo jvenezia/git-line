@@ -47,7 +47,7 @@ Commands:
   stash
       Stash tracked and untracked changes.
   switch [<partial_branch_name>]
-      Switch to a recent or matching local branch.
+      Switch to an exact, partial, or recent local branch.
   edit
       Rebase interactively with autosquash from the branch ancestor.
   update
